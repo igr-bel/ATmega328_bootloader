@@ -1,0 +1,37 @@
+\hypertarget{crc16__ccitt_8c}{}\doxysection{//ws-\/rob-\/local/\+Obmen/boot\+\_\+test/\+ATmega328/crc16\+\_\+ccitt.c File Reference}
+\label{crc16__ccitt_8c}\index{//ws-\/rob-\/local/Obmen/boot\_test/ATmega328/crc16\_ccitt.c@{//ws-\/rob-\/local/Obmen/boot\_test/ATmega328/crc16\_ccitt.c}}
+{\ttfamily \#include \char`\"{}crc16\+\_\+ccitt.\+h\char`\"{}}\newline
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+unsigned int \mbox{\hyperlink{crc16__ccitt_8c_ac67aed7e1034958e081956ebf9890b68}{get\+CRC16\+\_\+\+CCITT}} (unsigned char $\ast$p\+\_\+data, unsigned char len)
+\begin{DoxyCompactList}\small\item\em Get CRC16. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{crc16__ccitt_8c_ac67aed7e1034958e081956ebf9890b68}\label{crc16__ccitt_8c_ac67aed7e1034958e081956ebf9890b68}} 
+\index{crc16\_ccitt.c@{crc16\_ccitt.c}!getCRC16\_CCITT@{getCRC16\_CCITT}}
+\index{getCRC16\_CCITT@{getCRC16\_CCITT}!crc16\_ccitt.c@{crc16\_ccitt.c}}
+\doxysubsubsection{\texorpdfstring{getCRC16\_CCITT()}{getCRC16\_CCITT()}}
+{\footnotesize\ttfamily unsigned int get\+CRC16\+\_\+\+CCITT (\begin{DoxyParamCaption}\item[{unsigned char $\ast$}]{p\+\_\+data,  }\item[{unsigned char}]{len }\end{DoxyParamCaption})}
+
+
+
+Get CRC16. 
+
+CRC-\/16/\+CCITT-\/\+FALSE Poly \+: 0x1021 Init \+: 0x\+FFFF Revert\+: false Xor\+Out\+: 0x0000 Check \+: 0x29\+B1 (\char`\"{}123456789\char`\"{})
+
+
+\begin{DoxyParams}{Parameters}
+{\em data} & Processed data pionter. \\
+\hline
+{\em len} & Length of data in bytes. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+unsigned int CRC16. 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{crc16__ccitt_8c_source_l00017}{17}} of file \mbox{\hyperlink{crc16__ccitt_8c_source}{crc16\+\_\+ccitt.\+c}}.
+

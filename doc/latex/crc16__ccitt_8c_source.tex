@@ -1,0 +1,27 @@
+\hypertarget{crc16__ccitt_8c_source}{}\doxysection{//ws-\/rob-\/local/\+Obmen/boot\+\_\+test/\+ATmega328/crc16\+\_\+ccitt.c}
+\mbox{\hyperlink{crc16__ccitt_8c}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{crc16__ccitt_8c_source_l00001}00001 \textcolor{preprocessor}{\#include "{}\mbox{\hyperlink{crc16__ccitt_8h}{crc16\_ccitt.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{crc16__ccitt_8c_source_l00002}00002 }
+\DoxyCodeLine{\Hypertarget{crc16__ccitt_8c_source_l00017}\mbox{\hyperlink{crc16__ccitt_8c_ac67aed7e1034958e081956ebf9890b68}{00017}} \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} \mbox{\hyperlink{crc16__ccitt_8c_ac67aed7e1034958e081956ebf9890b68}{getCRC16\_CCITT}}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} *p\_data, \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} len)}
+\DoxyCodeLine{\Hypertarget{crc16__ccitt_8c_source_l00018}00018 \{}
+\DoxyCodeLine{\Hypertarget{crc16__ccitt_8c_source_l00019}00019     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} crc;}
+\DoxyCodeLine{\Hypertarget{crc16__ccitt_8c_source_l00020}00020     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} index;}
+\DoxyCodeLine{\Hypertarget{crc16__ccitt_8c_source_l00021}00021 }
+\DoxyCodeLine{\Hypertarget{crc16__ccitt_8c_source_l00022}00022     crc = \mbox{\hyperlink{crc16__ccitt_8h_ad6269440f7c880aeebe8e474ff88cd84}{CCIT\_INIT}};}
+\DoxyCodeLine{\Hypertarget{crc16__ccitt_8c_source_l00023}00023 }
+\DoxyCodeLine{\Hypertarget{crc16__ccitt_8c_source_l00024}00024     \textcolor{keywordflow}{while} (len-\/-\/)}
+\DoxyCodeLine{\Hypertarget{crc16__ccitt_8c_source_l00025}00025     \{}
+\DoxyCodeLine{\Hypertarget{crc16__ccitt_8c_source_l00026}00026 }
+\DoxyCodeLine{\Hypertarget{crc16__ccitt_8c_source_l00027}00027         crc \string^= (\textcolor{keywordtype}{unsigned} int)*p\_data++ << 8;}
+\DoxyCodeLine{\Hypertarget{crc16__ccitt_8c_source_l00028}00028 }
+\DoxyCodeLine{\Hypertarget{crc16__ccitt_8c_source_l00029}00029         \textcolor{keywordflow}{for} (index = 0; index < 8; index++)}
+\DoxyCodeLine{\Hypertarget{crc16__ccitt_8c_source_l00030}00030         \{}
+\DoxyCodeLine{\Hypertarget{crc16__ccitt_8c_source_l00031}00031             crc = crc \& 0x8000 ? (crc << 1) \string^ \mbox{\hyperlink{crc16__ccitt_8h_af91b7bbdd7ce72458685b18b57a0285e}{POLYNOM\_CCITT}} : crc << 1;}
+\DoxyCodeLine{\Hypertarget{crc16__ccitt_8c_source_l00032}00032         \}}
+\DoxyCodeLine{\Hypertarget{crc16__ccitt_8c_source_l00033}00033     \}\textcolor{comment}{//while}}
+\DoxyCodeLine{\Hypertarget{crc16__ccitt_8c_source_l00034}00034 }
+\DoxyCodeLine{\Hypertarget{crc16__ccitt_8c_source_l00035}00035     \textcolor{keywordflow}{return} crc;}
+\DoxyCodeLine{\Hypertarget{crc16__ccitt_8c_source_l00036}00036 \}}
+
+\end{DoxyCode}

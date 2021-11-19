@@ -1,0 +1,218 @@
+\hypertarget{flash_8h}{}\doxysection{//ws-\/rob-\/local/\+Obmen/boot\+\_\+test/\+ATmega328/flash.h File Reference}
+\label{flash_8h}\index{//ws-\/rob-\/local/Obmen/boot\_test/ATmega328/flash.h@{//ws-\/rob-\/local/Obmen/boot\_test/ATmega328/flash.h}}
+\doxysubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{flash_8h_a2d259af6873b20b329bf26b79d349d5e}{\+\_\+\+GET\+\_\+\+LOCK\+\_\+\+BITS}}()~\mbox{\hyperlink{flash_8h_aaf24df2269b0ccc096d6a2bee43cc972}{\+\_\+\+\_\+\+Addr\+To\+ZByte\+To\+SPMCR\+\_\+\+LPM}}( (void flash $\ast$) 0x0001, 0x09 )
+\item 
+\#define \mbox{\hyperlink{flash_8h_a4e5758b5f426344457d64bc2e49e7d0a}{\+\_\+\+GET\+\_\+\+LOW\+\_\+\+FUSES}}()~\mbox{\hyperlink{flash_8h_aaf24df2269b0ccc096d6a2bee43cc972}{\+\_\+\+\_\+\+Addr\+To\+ZByte\+To\+SPMCR\+\_\+\+LPM}}( (void flash $\ast$) 0x0000, 0x09 )
+\item 
+\#define \mbox{\hyperlink{flash_8h_a8f81a18669f2453549c8f4bc7f94076f}{\+\_\+\+GET\+\_\+\+HIGH\+\_\+\+FUSES}}()~\mbox{\hyperlink{flash_8h_aaf24df2269b0ccc096d6a2bee43cc972}{\+\_\+\+\_\+\+Addr\+To\+ZByte\+To\+SPMCR\+\_\+\+LPM}}( (void flash $\ast$) 0x0003, 0x09 )
+\item 
+\#define \mbox{\hyperlink{flash_8h_a605e09688f73b72ce2f6f45914497aab}{\+\_\+\+GET\+\_\+\+EXTENDED\+\_\+\+FUSES}}()~\mbox{\hyperlink{flash_8h_aaf24df2269b0ccc096d6a2bee43cc972}{\+\_\+\+\_\+\+Addr\+To\+ZByte\+To\+SPMCR\+\_\+\+LPM}}( (void flash $\ast$) 0x0002, 0x09 )
+\item 
+\#define \mbox{\hyperlink{flash_8h_ab023f2a0b30dad3f3f2668d04ac71f88}{\+\_\+\+SET\+\_\+\+LOCK\+\_\+\+BITS}}(data)~\mbox{\hyperlink{flash_8h_a3426d246aaeea1ea72a473ab12c1e645}{\+\_\+\+\_\+\+Data\+To\+R0\+Byte\+To\+SPMCR\+\_\+\+SPM}}( data, 0x09 )
+\item 
+\#define \mbox{\hyperlink{flash_8h_ad0a33454b7ed700c0977bc4baf761b60}{\+\_\+\+ENABLE\+\_\+\+RWW\+\_\+\+SECTION}}()~\mbox{\hyperlink{flash_8h_a3426d246aaeea1ea72a473ab12c1e645}{\+\_\+\+\_\+\+Data\+To\+R0\+Byte\+To\+SPMCR\+\_\+\+SPM}}( 0x00, 0x11 )
+\item 
+\#define \mbox{\hyperlink{flash_8h_aef565ef46f88885bcbe0776b55b6cfea}{\+\_\+\+WAIT\+\_\+\+FOR\+\_\+\+SPM}}()~while( \mbox{\hyperlink{defines_8h_a072555cef79eab5649599b1521b78bb1}{SPMCR\+\_\+\+REG}} \& (1$<$$<$SELFPRGEN) );
+\item 
+\#define \mbox{\hyperlink{flash_8h_a982890f0dc484ec6b43341aba91da4d2}{\+\_\+\+LOAD\+\_\+\+PROGRAM\+\_\+\+MEMORY}}(addr)~($\ast$( (unsigned char flash $\ast$) (addr) ))
+\item 
+\#define \mbox{\hyperlink{flash_8h_a3046e7ee03f6b3272e6e7f87ec94f685}{\+\_\+\+FILL\+\_\+\+TEMP\+\_\+\+WORD}}(addr,  data)~\mbox{\hyperlink{flash_8h_aad94557d937a9dc76c49c930b726d4ce}{\+\_\+\+\_\+\+Addr\+To\+Z24\+Word\+To\+R1\+R0\+Byte\+To\+SPMCR\+\_\+\+SPM}}( (void flash $\ast$) (addr), data, 0x01 )
+\item 
+\#define \mbox{\hyperlink{flash_8h_a095eb6a9be843fded32d7395d83c084c}{\+\_\+\+PAGE\+\_\+\+ERASE}}(addr)~\mbox{\hyperlink{flash_8h_a793db4d4ae08e6daa7eefa52204738a8}{\+\_\+\+\_\+\+Addr\+To\+Z24\+Byte\+To\+SPMCR\+\_\+\+SPM}}( (void flash $\ast$) (addr), 0x03 )
+\item 
+\#define \mbox{\hyperlink{flash_8h_af6e6254a03a9142dc7408b0a870b7453}{\+\_\+\+PAGE\+\_\+\+WRITE}}(addr)~\mbox{\hyperlink{flash_8h_a793db4d4ae08e6daa7eefa52204738a8}{\+\_\+\+\_\+\+Addr\+To\+Z24\+Byte\+To\+SPMCR\+\_\+\+SPM}}( (void flash $\ast$) (addr), 0x05 )
+\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+unsigned char \mbox{\hyperlink{flash_8h_aaf24df2269b0ccc096d6a2bee43cc972}{\+\_\+\+\_\+\+Addr\+To\+ZByte\+To\+SPMCR\+\_\+\+LPM}} (void flash $\ast$addr, unsigned char ctrl)
+\item 
+void \mbox{\hyperlink{flash_8h_a3426d246aaeea1ea72a473ab12c1e645}{\+\_\+\+\_\+\+Data\+To\+R0\+Byte\+To\+SPMCR\+\_\+\+SPM}} (unsigned char data, unsigned char ctrl)
+\item 
+void \mbox{\hyperlink{flash_8h_a26352e2db4c23eff0f50fce9a5f0ebe4}{\+\_\+\+\_\+\+Addr\+To\+ZByte\+To\+SPMCR\+\_\+\+SPM}} (void flash $\ast$addr, unsigned char ctrl)
+\item 
+void \mbox{\hyperlink{flash_8h_a6b2309e0aed8d7727557c064e4c6b284}{\+\_\+\+\_\+\+Addr\+To\+ZWord\+To\+R1\+R0\+Byte\+To\+SPMCR\+\_\+\+SPM}} (void flash $\ast$addr, unsigned int data, unsigned char ctrl)
+\item 
+void \mbox{\hyperlink{flash_8h_aad94557d937a9dc76c49c930b726d4ce}{\+\_\+\+\_\+\+Addr\+To\+Z24\+Word\+To\+R1\+R0\+Byte\+To\+SPMCR\+\_\+\+SPM}} (void flash $\ast$addr, unsigned int data, unsigned char ctrl)
+\item 
+void \mbox{\hyperlink{flash_8h_a793db4d4ae08e6daa7eefa52204738a8}{\+\_\+\+\_\+\+Addr\+To\+Z24\+Byte\+To\+SPMCR\+\_\+\+SPM}} (void flash $\ast$addr, unsigned char ctrl)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Macro Definition Documentation}
+\mbox{\Hypertarget{flash_8h_ad0a33454b7ed700c0977bc4baf761b60}\label{flash_8h_ad0a33454b7ed700c0977bc4baf761b60}} 
+\index{flash.h@{flash.h}!\_ENABLE\_RWW\_SECTION@{\_ENABLE\_RWW\_SECTION}}
+\index{\_ENABLE\_RWW\_SECTION@{\_ENABLE\_RWW\_SECTION}!flash.h@{flash.h}}
+\doxysubsubsection{\texorpdfstring{\_ENABLE\_RWW\_SECTION}{\_ENABLE\_RWW\_SECTION}}
+{\footnotesize\ttfamily \#define \+\_\+\+ENABLE\+\_\+\+RWW\+\_\+\+SECTION(\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})~\mbox{\hyperlink{flash_8h_a3426d246aaeea1ea72a473ab12c1e645}{\+\_\+\+\_\+\+Data\+To\+R0\+Byte\+To\+SPMCR\+\_\+\+SPM}}( 0x00, 0x11 )}
+
+
+
+Definition at line \mbox{\hyperlink{flash_8h_source_l00009}{9}} of file \mbox{\hyperlink{flash_8h_source}{flash.\+h}}.
+
+\mbox{\Hypertarget{flash_8h_a3046e7ee03f6b3272e6e7f87ec94f685}\label{flash_8h_a3046e7ee03f6b3272e6e7f87ec94f685}} 
+\index{flash.h@{flash.h}!\_FILL\_TEMP\_WORD@{\_FILL\_TEMP\_WORD}}
+\index{\_FILL\_TEMP\_WORD@{\_FILL\_TEMP\_WORD}!flash.h@{flash.h}}
+\doxysubsubsection{\texorpdfstring{\_FILL\_TEMP\_WORD}{\_FILL\_TEMP\_WORD}}
+{\footnotesize\ttfamily \#define \+\_\+\+FILL\+\_\+\+TEMP\+\_\+\+WORD(\begin{DoxyParamCaption}\item[{}]{addr,  }\item[{}]{data }\end{DoxyParamCaption})~\mbox{\hyperlink{flash_8h_aad94557d937a9dc76c49c930b726d4ce}{\+\_\+\+\_\+\+Addr\+To\+Z24\+Word\+To\+R1\+R0\+Byte\+To\+SPMCR\+\_\+\+SPM}}( (void flash $\ast$) (addr), data, 0x01 )}
+
+
+
+Definition at line \mbox{\hyperlink{flash_8h_source_l00020}{20}} of file \mbox{\hyperlink{flash_8h_source}{flash.\+h}}.
+
+\mbox{\Hypertarget{flash_8h_a605e09688f73b72ce2f6f45914497aab}\label{flash_8h_a605e09688f73b72ce2f6f45914497aab}} 
+\index{flash.h@{flash.h}!\_GET\_EXTENDED\_FUSES@{\_GET\_EXTENDED\_FUSES}}
+\index{\_GET\_EXTENDED\_FUSES@{\_GET\_EXTENDED\_FUSES}!flash.h@{flash.h}}
+\doxysubsubsection{\texorpdfstring{\_GET\_EXTENDED\_FUSES}{\_GET\_EXTENDED\_FUSES}}
+{\footnotesize\ttfamily \#define \+\_\+\+GET\+\_\+\+EXTENDED\+\_\+\+FUSES(\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})~\mbox{\hyperlink{flash_8h_aaf24df2269b0ccc096d6a2bee43cc972}{\+\_\+\+\_\+\+Addr\+To\+ZByte\+To\+SPMCR\+\_\+\+LPM}}( (void flash $\ast$) 0x0002, 0x09 )}
+
+
+
+Definition at line \mbox{\hyperlink{flash_8h_source_l00007}{7}} of file \mbox{\hyperlink{flash_8h_source}{flash.\+h}}.
+
+\mbox{\Hypertarget{flash_8h_a8f81a18669f2453549c8f4bc7f94076f}\label{flash_8h_a8f81a18669f2453549c8f4bc7f94076f}} 
+\index{flash.h@{flash.h}!\_GET\_HIGH\_FUSES@{\_GET\_HIGH\_FUSES}}
+\index{\_GET\_HIGH\_FUSES@{\_GET\_HIGH\_FUSES}!flash.h@{flash.h}}
+\doxysubsubsection{\texorpdfstring{\_GET\_HIGH\_FUSES}{\_GET\_HIGH\_FUSES}}
+{\footnotesize\ttfamily \#define \+\_\+\+GET\+\_\+\+HIGH\+\_\+\+FUSES(\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})~\mbox{\hyperlink{flash_8h_aaf24df2269b0ccc096d6a2bee43cc972}{\+\_\+\+\_\+\+Addr\+To\+ZByte\+To\+SPMCR\+\_\+\+LPM}}( (void flash $\ast$) 0x0003, 0x09 )}
+
+
+
+Definition at line \mbox{\hyperlink{flash_8h_source_l00006}{6}} of file \mbox{\hyperlink{flash_8h_source}{flash.\+h}}.
+
+\mbox{\Hypertarget{flash_8h_a2d259af6873b20b329bf26b79d349d5e}\label{flash_8h_a2d259af6873b20b329bf26b79d349d5e}} 
+\index{flash.h@{flash.h}!\_GET\_LOCK\_BITS@{\_GET\_LOCK\_BITS}}
+\index{\_GET\_LOCK\_BITS@{\_GET\_LOCK\_BITS}!flash.h@{flash.h}}
+\doxysubsubsection{\texorpdfstring{\_GET\_LOCK\_BITS}{\_GET\_LOCK\_BITS}}
+{\footnotesize\ttfamily \#define \+\_\+\+GET\+\_\+\+LOCK\+\_\+\+BITS(\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})~\mbox{\hyperlink{flash_8h_aaf24df2269b0ccc096d6a2bee43cc972}{\+\_\+\+\_\+\+Addr\+To\+ZByte\+To\+SPMCR\+\_\+\+LPM}}( (void flash $\ast$) 0x0001, 0x09 )}
+
+
+
+Definition at line \mbox{\hyperlink{flash_8h_source_l00004}{4}} of file \mbox{\hyperlink{flash_8h_source}{flash.\+h}}.
+
+\mbox{\Hypertarget{flash_8h_a4e5758b5f426344457d64bc2e49e7d0a}\label{flash_8h_a4e5758b5f426344457d64bc2e49e7d0a}} 
+\index{flash.h@{flash.h}!\_GET\_LOW\_FUSES@{\_GET\_LOW\_FUSES}}
+\index{\_GET\_LOW\_FUSES@{\_GET\_LOW\_FUSES}!flash.h@{flash.h}}
+\doxysubsubsection{\texorpdfstring{\_GET\_LOW\_FUSES}{\_GET\_LOW\_FUSES}}
+{\footnotesize\ttfamily \#define \+\_\+\+GET\+\_\+\+LOW\+\_\+\+FUSES(\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})~\mbox{\hyperlink{flash_8h_aaf24df2269b0ccc096d6a2bee43cc972}{\+\_\+\+\_\+\+Addr\+To\+ZByte\+To\+SPMCR\+\_\+\+LPM}}( (void flash $\ast$) 0x0000, 0x09 )}
+
+
+
+Definition at line \mbox{\hyperlink{flash_8h_source_l00005}{5}} of file \mbox{\hyperlink{flash_8h_source}{flash.\+h}}.
+
+\mbox{\Hypertarget{flash_8h_a982890f0dc484ec6b43341aba91da4d2}\label{flash_8h_a982890f0dc484ec6b43341aba91da4d2}} 
+\index{flash.h@{flash.h}!\_LOAD\_PROGRAM\_MEMORY@{\_LOAD\_PROGRAM\_MEMORY}}
+\index{\_LOAD\_PROGRAM\_MEMORY@{\_LOAD\_PROGRAM\_MEMORY}!flash.h@{flash.h}}
+\doxysubsubsection{\texorpdfstring{\_LOAD\_PROGRAM\_MEMORY}{\_LOAD\_PROGRAM\_MEMORY}}
+{\footnotesize\ttfamily \#define \+\_\+\+LOAD\+\_\+\+PROGRAM\+\_\+\+MEMORY(\begin{DoxyParamCaption}\item[{}]{addr }\end{DoxyParamCaption})~($\ast$( (unsigned char flash $\ast$) (addr) ))}
+
+
+
+Definition at line \mbox{\hyperlink{flash_8h_source_l00013}{13}} of file \mbox{\hyperlink{flash_8h_source}{flash.\+h}}.
+
+\mbox{\Hypertarget{flash_8h_a095eb6a9be843fded32d7395d83c084c}\label{flash_8h_a095eb6a9be843fded32d7395d83c084c}} 
+\index{flash.h@{flash.h}!\_PAGE\_ERASE@{\_PAGE\_ERASE}}
+\index{\_PAGE\_ERASE@{\_PAGE\_ERASE}!flash.h@{flash.h}}
+\doxysubsubsection{\texorpdfstring{\_PAGE\_ERASE}{\_PAGE\_ERASE}}
+{\footnotesize\ttfamily \#define \+\_\+\+PAGE\+\_\+\+ERASE(\begin{DoxyParamCaption}\item[{}]{addr }\end{DoxyParamCaption})~\mbox{\hyperlink{flash_8h_a793db4d4ae08e6daa7eefa52204738a8}{\+\_\+\+\_\+\+Addr\+To\+Z24\+Byte\+To\+SPMCR\+\_\+\+SPM}}( (void flash $\ast$) (addr), 0x03 )}
+
+
+
+Definition at line \mbox{\hyperlink{flash_8h_source_l00021}{21}} of file \mbox{\hyperlink{flash_8h_source}{flash.\+h}}.
+
+\mbox{\Hypertarget{flash_8h_af6e6254a03a9142dc7408b0a870b7453}\label{flash_8h_af6e6254a03a9142dc7408b0a870b7453}} 
+\index{flash.h@{flash.h}!\_PAGE\_WRITE@{\_PAGE\_WRITE}}
+\index{\_PAGE\_WRITE@{\_PAGE\_WRITE}!flash.h@{flash.h}}
+\doxysubsubsection{\texorpdfstring{\_PAGE\_WRITE}{\_PAGE\_WRITE}}
+{\footnotesize\ttfamily \#define \+\_\+\+PAGE\+\_\+\+WRITE(\begin{DoxyParamCaption}\item[{}]{addr }\end{DoxyParamCaption})~\mbox{\hyperlink{flash_8h_a793db4d4ae08e6daa7eefa52204738a8}{\+\_\+\+\_\+\+Addr\+To\+Z24\+Byte\+To\+SPMCR\+\_\+\+SPM}}( (void flash $\ast$) (addr), 0x05 )}
+
+
+
+Definition at line \mbox{\hyperlink{flash_8h_source_l00022}{22}} of file \mbox{\hyperlink{flash_8h_source}{flash.\+h}}.
+
+\mbox{\Hypertarget{flash_8h_ab023f2a0b30dad3f3f2668d04ac71f88}\label{flash_8h_ab023f2a0b30dad3f3f2668d04ac71f88}} 
+\index{flash.h@{flash.h}!\_SET\_LOCK\_BITS@{\_SET\_LOCK\_BITS}}
+\index{\_SET\_LOCK\_BITS@{\_SET\_LOCK\_BITS}!flash.h@{flash.h}}
+\doxysubsubsection{\texorpdfstring{\_SET\_LOCK\_BITS}{\_SET\_LOCK\_BITS}}
+{\footnotesize\ttfamily \#define \+\_\+\+SET\+\_\+\+LOCK\+\_\+\+BITS(\begin{DoxyParamCaption}\item[{}]{data }\end{DoxyParamCaption})~\mbox{\hyperlink{flash_8h_a3426d246aaeea1ea72a473ab12c1e645}{\+\_\+\+\_\+\+Data\+To\+R0\+Byte\+To\+SPMCR\+\_\+\+SPM}}( data, 0x09 )}
+
+
+
+Definition at line \mbox{\hyperlink{flash_8h_source_l00008}{8}} of file \mbox{\hyperlink{flash_8h_source}{flash.\+h}}.
+
+\mbox{\Hypertarget{flash_8h_aef565ef46f88885bcbe0776b55b6cfea}\label{flash_8h_aef565ef46f88885bcbe0776b55b6cfea}} 
+\index{flash.h@{flash.h}!\_WAIT\_FOR\_SPM@{\_WAIT\_FOR\_SPM}}
+\index{\_WAIT\_FOR\_SPM@{\_WAIT\_FOR\_SPM}!flash.h@{flash.h}}
+\doxysubsubsection{\texorpdfstring{\_WAIT\_FOR\_SPM}{\_WAIT\_FOR\_SPM}}
+{\footnotesize\ttfamily \#define \+\_\+\+WAIT\+\_\+\+FOR\+\_\+\+SPM(\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})~while( \mbox{\hyperlink{defines_8h_a072555cef79eab5649599b1521b78bb1}{SPMCR\+\_\+\+REG}} \& (1$<$$<$SELFPRGEN) );}
+
+
+
+Definition at line \mbox{\hyperlink{flash_8h_source_l00011}{11}} of file \mbox{\hyperlink{flash_8h_source}{flash.\+h}}.
+
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{flash_8h_a793db4d4ae08e6daa7eefa52204738a8}\label{flash_8h_a793db4d4ae08e6daa7eefa52204738a8}} 
+\index{flash.h@{flash.h}!\_\_AddrToZ24ByteToSPMCR\_SPM@{\_\_AddrToZ24ByteToSPMCR\_SPM}}
+\index{\_\_AddrToZ24ByteToSPMCR\_SPM@{\_\_AddrToZ24ByteToSPMCR\_SPM}!flash.h@{flash.h}}
+\doxysubsubsection{\texorpdfstring{\_\_AddrToZ24ByteToSPMCR\_SPM()}{\_\_AddrToZ24ByteToSPMCR\_SPM()}}
+{\footnotesize\ttfamily void \+\_\+\+\_\+\+Addr\+To\+Z24\+Byte\+To\+SPMCR\+\_\+\+SPM (\begin{DoxyParamCaption}\item[{void flash $\ast$}]{addr,  }\item[{unsigned char}]{ctrl }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{flash_8c_source_l00066}{66}} of file \mbox{\hyperlink{flash_8c_source}{flash.\+c}}.
+
+\mbox{\Hypertarget{flash_8h_aad94557d937a9dc76c49c930b726d4ce}\label{flash_8h_aad94557d937a9dc76c49c930b726d4ce}} 
+\index{flash.h@{flash.h}!\_\_AddrToZ24WordToR1R0ByteToSPMCR\_SPM@{\_\_AddrToZ24WordToR1R0ByteToSPMCR\_SPM}}
+\index{\_\_AddrToZ24WordToR1R0ByteToSPMCR\_SPM@{\_\_AddrToZ24WordToR1R0ByteToSPMCR\_SPM}!flash.h@{flash.h}}
+\doxysubsubsection{\texorpdfstring{\_\_AddrToZ24WordToR1R0ByteToSPMCR\_SPM()}{\_\_AddrToZ24WordToR1R0ByteToSPMCR\_SPM()}}
+{\footnotesize\ttfamily void \+\_\+\+\_\+\+Addr\+To\+Z24\+Word\+To\+R1\+R0\+Byte\+To\+SPMCR\+\_\+\+SPM (\begin{DoxyParamCaption}\item[{void flash $\ast$}]{addr,  }\item[{unsigned int}]{data,  }\item[{unsigned char}]{ctrl }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{flash_8c_source_l00051}{51}} of file \mbox{\hyperlink{flash_8c_source}{flash.\+c}}.
+
+\mbox{\Hypertarget{flash_8h_aaf24df2269b0ccc096d6a2bee43cc972}\label{flash_8h_aaf24df2269b0ccc096d6a2bee43cc972}} 
+\index{flash.h@{flash.h}!\_\_AddrToZByteToSPMCR\_LPM@{\_\_AddrToZByteToSPMCR\_LPM}}
+\index{\_\_AddrToZByteToSPMCR\_LPM@{\_\_AddrToZByteToSPMCR\_LPM}!flash.h@{flash.h}}
+\doxysubsubsection{\texorpdfstring{\_\_AddrToZByteToSPMCR\_LPM()}{\_\_AddrToZByteToSPMCR\_LPM()}}
+{\footnotesize\ttfamily unsigned char \+\_\+\+\_\+\+Addr\+To\+ZByte\+To\+SPMCR\+\_\+\+LPM (\begin{DoxyParamCaption}\item[{void flash $\ast$}]{addr,  }\item[{unsigned char}]{ctrl }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{flash_8c_source_l00005}{5}} of file \mbox{\hyperlink{flash_8c_source}{flash.\+c}}.
+
+\mbox{\Hypertarget{flash_8h_a26352e2db4c23eff0f50fce9a5f0ebe4}\label{flash_8h_a26352e2db4c23eff0f50fce9a5f0ebe4}} 
+\index{flash.h@{flash.h}!\_\_AddrToZByteToSPMCR\_SPM@{\_\_AddrToZByteToSPMCR\_SPM}}
+\index{\_\_AddrToZByteToSPMCR\_SPM@{\_\_AddrToZByteToSPMCR\_SPM}!flash.h@{flash.h}}
+\doxysubsubsection{\texorpdfstring{\_\_AddrToZByteToSPMCR\_SPM()}{\_\_AddrToZByteToSPMCR\_SPM()}}
+{\footnotesize\ttfamily void \+\_\+\+\_\+\+Addr\+To\+ZByte\+To\+SPMCR\+\_\+\+SPM (\begin{DoxyParamCaption}\item[{void flash $\ast$}]{addr,  }\item[{unsigned char}]{ctrl }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{flash_8c_source_l00040}{40}} of file \mbox{\hyperlink{flash_8c_source}{flash.\+c}}.
+
+\mbox{\Hypertarget{flash_8h_a6b2309e0aed8d7727557c064e4c6b284}\label{flash_8h_a6b2309e0aed8d7727557c064e4c6b284}} 
+\index{flash.h@{flash.h}!\_\_AddrToZWordToR1R0ByteToSPMCR\_SPM@{\_\_AddrToZWordToR1R0ByteToSPMCR\_SPM}}
+\index{\_\_AddrToZWordToR1R0ByteToSPMCR\_SPM@{\_\_AddrToZWordToR1R0ByteToSPMCR\_SPM}!flash.h@{flash.h}}
+\doxysubsubsection{\texorpdfstring{\_\_AddrToZWordToR1R0ByteToSPMCR\_SPM()}{\_\_AddrToZWordToR1R0ByteToSPMCR\_SPM()}}
+{\footnotesize\ttfamily void \+\_\+\+\_\+\+Addr\+To\+ZWord\+To\+R1\+R0\+Byte\+To\+SPMCR\+\_\+\+SPM (\begin{DoxyParamCaption}\item[{void flash $\ast$}]{addr,  }\item[{unsigned int}]{data,  }\item[{unsigned char}]{ctrl }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{flash_8c_source_l00027}{27}} of file \mbox{\hyperlink{flash_8c_source}{flash.\+c}}.
+
+\mbox{\Hypertarget{flash_8h_a3426d246aaeea1ea72a473ab12c1e645}\label{flash_8h_a3426d246aaeea1ea72a473ab12c1e645}} 
+\index{flash.h@{flash.h}!\_\_DataToR0ByteToSPMCR\_SPM@{\_\_DataToR0ByteToSPMCR\_SPM}}
+\index{\_\_DataToR0ByteToSPMCR\_SPM@{\_\_DataToR0ByteToSPMCR\_SPM}!flash.h@{flash.h}}
+\doxysubsubsection{\texorpdfstring{\_\_DataToR0ByteToSPMCR\_SPM()}{\_\_DataToR0ByteToSPMCR\_SPM()}}
+{\footnotesize\ttfamily void \+\_\+\+\_\+\+Data\+To\+R0\+Byte\+To\+SPMCR\+\_\+\+SPM (\begin{DoxyParamCaption}\item[{unsigned char}]{data,  }\item[{unsigned char}]{ctrl }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{flash_8c_source_l00017}{17}} of file \mbox{\hyperlink{flash_8c_source}{flash.\+c}}.
+

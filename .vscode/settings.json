@@ -1,0 +1,6 @@
+{
+    "files.associations": {
+        "crc16_ccitt.h": "c",
+        "defines.h": "c"
+    }
+}

@@ -1,0 +1,90 @@
+\hypertarget{crc16__ccitt_8h}{}\doxysection{//ws-\/rob-\/local/\+Obmen/boot\+\_\+test/\+ATmega328/crc16\+\_\+ccitt.h File Reference}
+\label{crc16__ccitt_8h}\index{//ws-\/rob-\/local/Obmen/boot\_test/ATmega328/crc16\_ccitt.h@{//ws-\/rob-\/local/Obmen/boot\_test/ATmega328/crc16\_ccitt.h}}
+\doxysubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{crc16__ccitt_8h_af91b7bbdd7ce72458685b18b57a0285e}{POLYNOM\+\_\+\+CCITT}}~0x1021
+\item 
+\#define \mbox{\hyperlink{crc16__ccitt_8h_ad6269440f7c880aeebe8e474ff88cd84}{CCIT\+\_\+\+INIT}}~0x\+FFFF
+\item 
+\#define \mbox{\hyperlink{crc16__ccitt_8h_a526a4e1347fa25cb82bb0f6e5f4619bf}{lo8}}(x)~((x) \& 0xff)
+\item 
+\#define \mbox{\hyperlink{crc16__ccitt_8h_a257288eff2b20e6aa2c6ce7bd622f5ec}{hi8}}(x)~((x) $>$$>$ 8)
+\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+unsigned int \mbox{\hyperlink{crc16__ccitt_8h_ac67aed7e1034958e081956ebf9890b68}{get\+CRC16\+\_\+\+CCITT}} (unsigned char $\ast$p\+\_\+data, unsigned char len)
+\begin{DoxyCompactList}\small\item\em Get CRC16. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Macro Definition Documentation}
+\mbox{\Hypertarget{crc16__ccitt_8h_ad6269440f7c880aeebe8e474ff88cd84}\label{crc16__ccitt_8h_ad6269440f7c880aeebe8e474ff88cd84}} 
+\index{crc16\_ccitt.h@{crc16\_ccitt.h}!CCIT\_INIT@{CCIT\_INIT}}
+\index{CCIT\_INIT@{CCIT\_INIT}!crc16\_ccitt.h@{crc16\_ccitt.h}}
+\doxysubsubsection{\texorpdfstring{CCIT\_INIT}{CCIT\_INIT}}
+{\footnotesize\ttfamily \#define CCIT\+\_\+\+INIT~0x\+FFFF}
+
+
+
+Definition at line \mbox{\hyperlink{crc16__ccitt_8h_source_l00005}{5}} of file \mbox{\hyperlink{crc16__ccitt_8h_source}{crc16\+\_\+ccitt.\+h}}.
+
+\mbox{\Hypertarget{crc16__ccitt_8h_a257288eff2b20e6aa2c6ce7bd622f5ec}\label{crc16__ccitt_8h_a257288eff2b20e6aa2c6ce7bd622f5ec}} 
+\index{crc16\_ccitt.h@{crc16\_ccitt.h}!hi8@{hi8}}
+\index{hi8@{hi8}!crc16\_ccitt.h@{crc16\_ccitt.h}}
+\doxysubsubsection{\texorpdfstring{hi8}{hi8}}
+{\footnotesize\ttfamily \#define hi8(\begin{DoxyParamCaption}\item[{}]{x }\end{DoxyParamCaption})~((x) $>$$>$ 8)}
+
+
+
+Definition at line \mbox{\hyperlink{crc16__ccitt_8h_source_l00008}{8}} of file \mbox{\hyperlink{crc16__ccitt_8h_source}{crc16\+\_\+ccitt.\+h}}.
+
+\mbox{\Hypertarget{crc16__ccitt_8h_a526a4e1347fa25cb82bb0f6e5f4619bf}\label{crc16__ccitt_8h_a526a4e1347fa25cb82bb0f6e5f4619bf}} 
+\index{crc16\_ccitt.h@{crc16\_ccitt.h}!lo8@{lo8}}
+\index{lo8@{lo8}!crc16\_ccitt.h@{crc16\_ccitt.h}}
+\doxysubsubsection{\texorpdfstring{lo8}{lo8}}
+{\footnotesize\ttfamily \#define lo8(\begin{DoxyParamCaption}\item[{}]{x }\end{DoxyParamCaption})~((x) \& 0xff)}
+
+
+
+Definition at line \mbox{\hyperlink{crc16__ccitt_8h_source_l00007}{7}} of file \mbox{\hyperlink{crc16__ccitt_8h_source}{crc16\+\_\+ccitt.\+h}}.
+
+\mbox{\Hypertarget{crc16__ccitt_8h_af91b7bbdd7ce72458685b18b57a0285e}\label{crc16__ccitt_8h_af91b7bbdd7ce72458685b18b57a0285e}} 
+\index{crc16\_ccitt.h@{crc16\_ccitt.h}!POLYNOM\_CCITT@{POLYNOM\_CCITT}}
+\index{POLYNOM\_CCITT@{POLYNOM\_CCITT}!crc16\_ccitt.h@{crc16\_ccitt.h}}
+\doxysubsubsection{\texorpdfstring{POLYNOM\_CCITT}{POLYNOM\_CCITT}}
+{\footnotesize\ttfamily \#define POLYNOM\+\_\+\+CCITT~0x1021}
+
+
+
+Definition at line \mbox{\hyperlink{crc16__ccitt_8h_source_l00004}{4}} of file \mbox{\hyperlink{crc16__ccitt_8h_source}{crc16\+\_\+ccitt.\+h}}.
+
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{crc16__ccitt_8h_ac67aed7e1034958e081956ebf9890b68}\label{crc16__ccitt_8h_ac67aed7e1034958e081956ebf9890b68}} 
+\index{crc16\_ccitt.h@{crc16\_ccitt.h}!getCRC16\_CCITT@{getCRC16\_CCITT}}
+\index{getCRC16\_CCITT@{getCRC16\_CCITT}!crc16\_ccitt.h@{crc16\_ccitt.h}}
+\doxysubsubsection{\texorpdfstring{getCRC16\_CCITT()}{getCRC16\_CCITT()}}
+{\footnotesize\ttfamily unsigned int get\+CRC16\+\_\+\+CCITT (\begin{DoxyParamCaption}\item[{unsigned char $\ast$}]{p\+\_\+data,  }\item[{unsigned char}]{len }\end{DoxyParamCaption})}
+
+
+
+Get CRC16. 
+
+CRC-\/16/\+CCITT-\/\+FALSE Poly \+: 0x1021 Init \+: 0x\+FFFF Revert\+: false Xor\+Out\+: 0x0000 Check \+: 0x29\+B1 (\char`\"{}123456789\char`\"{})
+
+
+\begin{DoxyParams}{Parameters}
+{\em data} & Processed data pionter. \\
+\hline
+{\em len} & Length of data in bytes. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+unsigned int CRC16. 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{crc16__ccitt_8c_source_l00017}{17}} of file \mbox{\hyperlink{crc16__ccitt_8c_source}{crc16\+\_\+ccitt.\+c}}.
+

@@ -1,0 +1,236 @@
+Bootloader based on Atmel application note AVR109 communication protocol
+Target chips: ATmega168/328
+
+The bootloader expects to receive the '@' character in the first
+5 seconds after reset and enters the bootloader mode and
+responds with a '\r' character.
+If the above condition is not met, execution starts from address 0.
+
+It can be tested with the included avr109test.exe program.
+
+Modify the definitions for SPM control from defines.h to suit your chip.
+
+Example, for ATmega328:
+#define	SPMCR_REG	SPMCSR
+#asm
+     #define WR_SPMCR_REG_R22 out 0x37,r22
+#endasm
+
+Chip clock frequency: 16MHz specified in the project configuration.
+
+
+=======================================================================
+address = 0x0080;
+BlockRead(32, data_buff, 'E', &address);
+address = 0x00C0;
+BlockLoad(32, data_buff, 'E', &address);
+// for(temp_int = 0; temp_int < 32; temp_int+=2)
+// {
+//     printf("0x%X%X\n", ((unsigned char *) &data_buff)[temp_int],((unsigned char *) &data_buff)[temp_int+1]);
+// }
+        // putchar('>');
+        // while(1)
+        // {
+        //     val = getchar();
+        //     if(val == 'r')
+        //     {
+        //         #asm("wdr")
+        //         putchar('\n');
+        //         putchar('b');
+        //         putchar('u');
+        //         putchar('\n');
+        //     }
+        //     if(val == 'h')
+        //     {
+        //         putchar('\n');
+        //         putchar('o');
+        //         putchar('k');
+        //         putchar('\n');
+        //     }
+        // }
+
+        // write_prog_mem(0x003D, 0xaabb); //addr in word
+        // write_prog_mem(0x003E, 0xccdd);
+        // write_prog_mem(0x003F, 0x7788);
+
+        // write_page(0x0000);
+
+        // write_prog_mem(0x0003, 0x2211);
+        // write_prog_mem(0x0030, 0x4433);
+
+        // address = 0x0080;
+        // write_page(address);
+    
+        
+        
+for(temp_int = 0; temp_int < 64; temp_int++)
+{
+    address = temp_int;
+    write_prog_mem(address, temp_int);
+}
+address = 0x0040;
+write_page(address);
+
+// putchar('\n');
+        // address = 0x00C0;
+        // BlockLoad(64, data_buff, 'F', &address);
+
+
+address = 0x0040;
+BlockRead(128, data_buff, 'F', &address);
+for(temp_int = 0; temp_int < 128; temp_int+=2)
+{
+    printf("0x%X%X\n", ((unsigned char *) &data_buff)[temp_int],((unsigned char *) &data_buff)[temp_int+1]);
+}
+address = 0x0000;
+BlockLoad(128, data_buff, 'F', &address);
+
+// putchar('%');
+// putchar('\n');
+// printf("buff addr - 0x%X\n", data_buff);
+// for(temp_int = 0; temp_int < 128; temp_int+=2)
+// {
+//     // printf("0x%X # ", data_buff[temp_int]);
+//     // printf("ind - %d\n", temp_int);
+//     printf("0x%X%X\n", ((unsigned char *) &data_buff)[temp_int],((unsigned char *) &data_buff)[temp_int+1]);
+// }
+
+// address = 0x0000;
+// _PAGE_ERASE(address);
+// for(temp_int = 0; temp_int < 64; temp_int++)
+// {
+//     address = temp_int;
+//     write_prog_mem(address, data_buff[temp_int]);
+// }
+// address = 0x0000;
+// write_page(address);
+
+// address = 0x00C0;
+// _PAGE_ERASE(address);
+// for(temp_int = 0; temp_int < 64; temp_int++)
+// {
+//     address = temp_int;
+//     write_prog_mem(address, data_buff[temp_int]);
+// }
+// address = 0x00C0;
+// write_page(address);
+
+// address = 0x0080;
+// _PAGE_ERASE(address);
+// for(temp_int = 0; temp_int < 64; temp_int++)
+// {
+//     address = temp_int;
+//     write_prog_mem(address, data_buff[temp_int]);
+// }
+// address = 0x0080;
+// write_page(address);
+
+        // address = 0x0F;
+        // BlockLoad(4, 'E', &address);
+
+        // address = 0x03FF;
+        // _WAIT_FOR_SPM();
+        // *((eeprom unsigned char *) address) = '$';
+
+        // address = 0x03FF;
+        // val = *((eeprom unsigned char *) address);
+        // putchar('\n');
+        // putchar(val);
+
+        // temp_int = read_prog_mem(0x00C0);
+        // putchar('\n');
+        // putchar('*');
+        // putchar((unsigned char) temp_int);
+
+        // _WAIT_FOR_SPM();
+        // putchar('\n');
+        // putchar( _GET_LOCK_BITS() );
+
+        // _WAIT_FOR_SPM();
+        // putchar('\n');
+        // putchar( _GET_LOW_FUSES() );
+
+        // address = 0x03E1;
+        // _WAIT_FOR_SPM();
+        // *((eeprom unsigned char *) address) = _GET_LOW_FUSES();
+
+        // putchar('\n');
+        // _WAIT_FOR_SPM();
+        // putchar( _GET_HIGH_FUSES() );
+
+        // address = 0x03E0;
+        // _WAIT_FOR_SPM();
+        // *((eeprom unsigned char *) address) = _GET_HIGH_FUSES();
+
+        // putchar('\n');
+        // _WAIT_FOR_SPM();
+        // putchar( _GET_EXTENDED_FUSES() );
+        
+        //======================================
+        
+        for(temp_int = 0; temp_int < 64; temp_int++)
+{
+    address = temp_int;
+    write_prog_mem(address, temp_int);
+}
+address = 0x0040;
+write_page(address);
+
+address = 0x0040;
+BlockRead(128, data_buff, 'F', &address);
+
+address = 0x00C0;
+BlockLoad(128, data_buff, 'F', &address);
+
+address = 0x0140;
+BlockLoad(128, data_buff, 'F', &address);
+
+address = 0x01C0;
+BlockLoad(63, data_buff, 'F', &address);
+
+address = 0x0000;
+BlockLoad(76, data_buff, 'F', &address);
+
+for(temp_int = 0x00; temp_int < 0x37C0; temp_int += 0x40)
+{
+    address = temp_int;
+    BlockLoad(76, data_buff, 'F', &address);
+}
+
+..=============================================================
+
+_PAGE_ERASE(0x01C0);
+address = 0x01C0;
+BlockLoad(128, data_buff, 'F', &address);  
+
+_PAGE_ERASE(0x0040);
+address = 0x0040;
+BlockLoad(128, data_buff, 'F', &address);  
+
+_PAGE_ERASE(0x3740);
+address = 0x3740; 
+BlockLoad(128, data_buff, 'F', &address); 
+
+_PAGE_ERASE(0x37C0);
+address = 0x37C0; 
+BlockLoad(128, data_buff, 'F', &address); 
+
+address = 0x3740;
+BlockRead(128, data_buff, 'F', &address);
+data_buff[0] = 0x00;
+((unsigned char *)data_buff)[127] = 0x00;
+
+_PAGE_ERASE(0x0000);
+address = 0x0000; 
+BlockLoad(128, data_buff, 'F', &address); 
+
+
+BLD,1,BIN,0,9F40
+
+BLD,1,BIN,00000000000000099183764ACDBFE468923049865FEACDB1094876253456198736542ABCD174699183764ACDBFE468923049865FEACDB1094876253456198736,ECD1
+
+BLD,1,FWL,0081,1234567,B7AC
+
+BLD,1,FWL,0080,1234567,D8E9
+
+BLD,1,FWL,0181,1234567,B4D9

@@ -1,0 +1,87 @@
+\hypertarget{flash_8c_source}{}\doxysection{//ws-\/rob-\/local/\+Obmen/boot\+\_\+test/\+ATmega328/flash.c}
+\mbox{\hyperlink{flash_8c}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{flash_8c_source_l00001}00001 \textcolor{preprocessor}{\#include "{}\mbox{\hyperlink{defines_8h}{defines.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{flash_8c_source_l00002}00002 }
+\DoxyCodeLine{\Hypertarget{flash_8c_source_l00003}00003 \textcolor{preprocessor}{\#pragma warn-\/}}
+\DoxyCodeLine{\Hypertarget{flash_8c_source_l00004}00004 }
+\DoxyCodeLine{\Hypertarget{flash_8c_source_l00005}\mbox{\hyperlink{flash_8c_aaf24df2269b0ccc096d6a2bee43cc972}{00005}} \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} \mbox{\hyperlink{flash_8c_aaf24df2269b0ccc096d6a2bee43cc972}{\_\_AddrToZByteToSPMCR\_LPM}}(\textcolor{keywordtype}{void} flash *addr, \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} ctrl)}
+\DoxyCodeLine{\Hypertarget{flash_8c_source_l00006}00006 \{}
+\DoxyCodeLine{\Hypertarget{flash_8c_source_l00007}00007 \textcolor{preprocessor}{\#asm}}
+\DoxyCodeLine{\Hypertarget{flash_8c_source_l00008}00008      ldd  r30,y+1}
+\DoxyCodeLine{\Hypertarget{flash_8c_source_l00009}00009      ldd  r31,y+2}
+\DoxyCodeLine{\Hypertarget{flash_8c_source_l00010}00010      ld   r22,y}
+\DoxyCodeLine{\Hypertarget{flash_8c_source_l00011}00011      \mbox{\hyperlink{defines_8h_a9c5d06edb8c02b0748b0e67e4f5713b5}{WR\_SPMCR\_REG\_R22}}}
+\DoxyCodeLine{\Hypertarget{flash_8c_source_l00012}00012      lpm}
+\DoxyCodeLine{\Hypertarget{flash_8c_source_l00013}00013      mov  r30,r0}
+\DoxyCodeLine{\Hypertarget{flash_8c_source_l00014}00014 \textcolor{preprocessor}{\#endasm}}
+\DoxyCodeLine{\Hypertarget{flash_8c_source_l00015}00015 \}}
+\DoxyCodeLine{\Hypertarget{flash_8c_source_l00016}00016 }
+\DoxyCodeLine{\Hypertarget{flash_8c_source_l00017}\mbox{\hyperlink{flash_8c_a3426d246aaeea1ea72a473ab12c1e645}{00017}} \textcolor{keywordtype}{void} \mbox{\hyperlink{flash_8c_a3426d246aaeea1ea72a473ab12c1e645}{\_\_DataToR0ByteToSPMCR\_SPM}}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} data, \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} ctrl)}
+\DoxyCodeLine{\Hypertarget{flash_8c_source_l00018}00018 \{}
+\DoxyCodeLine{\Hypertarget{flash_8c_source_l00019}00019 \textcolor{preprocessor}{\#asm}}
+\DoxyCodeLine{\Hypertarget{flash_8c_source_l00020}00020      ldd  r0,y+1}
+\DoxyCodeLine{\Hypertarget{flash_8c_source_l00021}00021      ld   r22,y}
+\DoxyCodeLine{\Hypertarget{flash_8c_source_l00022}00022      \mbox{\hyperlink{defines_8h_a9c5d06edb8c02b0748b0e67e4f5713b5}{WR\_SPMCR\_REG\_R22}}}
+\DoxyCodeLine{\Hypertarget{flash_8c_source_l00023}00023      spm}
+\DoxyCodeLine{\Hypertarget{flash_8c_source_l00024}00024 \textcolor{preprocessor}{\#endasm}}
+\DoxyCodeLine{\Hypertarget{flash_8c_source_l00025}00025 \}}
+\DoxyCodeLine{\Hypertarget{flash_8c_source_l00026}00026 }
+\DoxyCodeLine{\Hypertarget{flash_8c_source_l00027}\mbox{\hyperlink{flash_8c_a6b2309e0aed8d7727557c064e4c6b284}{00027}} \textcolor{keywordtype}{void} \mbox{\hyperlink{flash_8c_a6b2309e0aed8d7727557c064e4c6b284}{\_\_AddrToZWordToR1R0ByteToSPMCR\_SPM}}(\textcolor{keywordtype}{void} flash *addr, \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} data, \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} ctrl)}
+\DoxyCodeLine{\Hypertarget{flash_8c_source_l00028}00028 \{}
+\DoxyCodeLine{\Hypertarget{flash_8c_source_l00029}00029 \textcolor{preprocessor}{\#asm}}
+\DoxyCodeLine{\Hypertarget{flash_8c_source_l00030}00030      ldd  r30,y+3}
+\DoxyCodeLine{\Hypertarget{flash_8c_source_l00031}00031      ldd  r31,y+4}
+\DoxyCodeLine{\Hypertarget{flash_8c_source_l00032}00032      ldd  r0,y+1}
+\DoxyCodeLine{\Hypertarget{flash_8c_source_l00033}00033      ldd  r1,y+2}
+\DoxyCodeLine{\Hypertarget{flash_8c_source_l00034}00034      ld   r22,y}
+\DoxyCodeLine{\Hypertarget{flash_8c_source_l00035}00035      \mbox{\hyperlink{defines_8h_a9c5d06edb8c02b0748b0e67e4f5713b5}{WR\_SPMCR\_REG\_R22}}}
+\DoxyCodeLine{\Hypertarget{flash_8c_source_l00036}00036      spm}
+\DoxyCodeLine{\Hypertarget{flash_8c_source_l00037}00037 \textcolor{preprocessor}{\#endasm}}
+\DoxyCodeLine{\Hypertarget{flash_8c_source_l00038}00038 \}}
+\DoxyCodeLine{\Hypertarget{flash_8c_source_l00039}00039 }
+\DoxyCodeLine{\Hypertarget{flash_8c_source_l00040}\mbox{\hyperlink{flash_8c_a26352e2db4c23eff0f50fce9a5f0ebe4}{00040}} \textcolor{keywordtype}{void} \mbox{\hyperlink{flash_8c_a26352e2db4c23eff0f50fce9a5f0ebe4}{\_\_AddrToZByteToSPMCR\_SPM}}(\textcolor{keywordtype}{void} flash *addr, \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} ctrl)}
+\DoxyCodeLine{\Hypertarget{flash_8c_source_l00041}00041 \{}
+\DoxyCodeLine{\Hypertarget{flash_8c_source_l00042}00042 \textcolor{preprocessor}{\#asm}}
+\DoxyCodeLine{\Hypertarget{flash_8c_source_l00043}00043      ldd  r30,y+1}
+\DoxyCodeLine{\Hypertarget{flash_8c_source_l00044}00044      ldd  r31,y+2}
+\DoxyCodeLine{\Hypertarget{flash_8c_source_l00045}00045      ld   r22,y}
+\DoxyCodeLine{\Hypertarget{flash_8c_source_l00046}00046      \mbox{\hyperlink{defines_8h_a9c5d06edb8c02b0748b0e67e4f5713b5}{WR\_SPMCR\_REG\_R22}}}
+\DoxyCodeLine{\Hypertarget{flash_8c_source_l00047}00047      spm}
+\DoxyCodeLine{\Hypertarget{flash_8c_source_l00048}00048 \textcolor{preprocessor}{\#endasm}}
+\DoxyCodeLine{\Hypertarget{flash_8c_source_l00049}00049 \}}
+\DoxyCodeLine{\Hypertarget{flash_8c_source_l00050}00050 }
+\DoxyCodeLine{\Hypertarget{flash_8c_source_l00051}\mbox{\hyperlink{flash_8c_aad94557d937a9dc76c49c930b726d4ce}{00051}} \textcolor{keywordtype}{void} \mbox{\hyperlink{flash_8c_aad94557d937a9dc76c49c930b726d4ce}{\_\_AddrToZ24WordToR1R0ByteToSPMCR\_SPM}}(\textcolor{keywordtype}{void} flash *addr, \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} data, \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} ctrl)}
+\DoxyCodeLine{\Hypertarget{flash_8c_source_l00052}00052 \{}
+\DoxyCodeLine{\Hypertarget{flash_8c_source_l00053}00053 \textcolor{preprocessor}{\#asm}}
+\DoxyCodeLine{\Hypertarget{flash_8c_source_l00054}00054      ldd  r30,y+3}
+\DoxyCodeLine{\Hypertarget{flash_8c_source_l00055}00055      ldd  r31,y+4}
+\DoxyCodeLine{\Hypertarget{flash_8c_source_l00056}00056      ldd  r22,y+5}
+\DoxyCodeLine{\Hypertarget{flash_8c_source_l00057}00057      out  rampz,r22}
+\DoxyCodeLine{\Hypertarget{flash_8c_source_l00058}00058      ldd  r0,y+1}
+\DoxyCodeLine{\Hypertarget{flash_8c_source_l00059}00059      ldd  r1,y+2}
+\DoxyCodeLine{\Hypertarget{flash_8c_source_l00060}00060      ld   r22,y}
+\DoxyCodeLine{\Hypertarget{flash_8c_source_l00061}00061      \mbox{\hyperlink{defines_8h_a9c5d06edb8c02b0748b0e67e4f5713b5}{WR\_SPMCR\_REG\_R22}}}
+\DoxyCodeLine{\Hypertarget{flash_8c_source_l00062}00062      spm}
+\DoxyCodeLine{\Hypertarget{flash_8c_source_l00063}00063 \textcolor{preprocessor}{\#endasm}}
+\DoxyCodeLine{\Hypertarget{flash_8c_source_l00064}00064 \}}
+\DoxyCodeLine{\Hypertarget{flash_8c_source_l00065}00065 }
+\DoxyCodeLine{\Hypertarget{flash_8c_source_l00066}\mbox{\hyperlink{flash_8c_a793db4d4ae08e6daa7eefa52204738a8}{00066}} \textcolor{keywordtype}{void} \mbox{\hyperlink{flash_8c_a793db4d4ae08e6daa7eefa52204738a8}{\_\_AddrToZ24ByteToSPMCR\_SPM}}(\textcolor{keywordtype}{void} flash *addr, \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} ctrl)}
+\DoxyCodeLine{\Hypertarget{flash_8c_source_l00067}00067 \{}
+\DoxyCodeLine{\Hypertarget{flash_8c_source_l00068}00068 \textcolor{preprocessor}{\#asm}}
+\DoxyCodeLine{\Hypertarget{flash_8c_source_l00069}00069      ldd  r30,y+1}
+\DoxyCodeLine{\Hypertarget{flash_8c_source_l00070}00070      ldd  r31,y+2}
+\DoxyCodeLine{\Hypertarget{flash_8c_source_l00071}00071      ldd  r22,y+3}
+\DoxyCodeLine{\Hypertarget{flash_8c_source_l00072}00072      out  rampz,r22}
+\DoxyCodeLine{\Hypertarget{flash_8c_source_l00073}00073      ld   r22,y}
+\DoxyCodeLine{\Hypertarget{flash_8c_source_l00074}00074      \mbox{\hyperlink{defines_8h_a9c5d06edb8c02b0748b0e67e4f5713b5}{WR\_SPMCR\_REG\_R22}}}
+\DoxyCodeLine{\Hypertarget{flash_8c_source_l00075}00075      spm}
+\DoxyCodeLine{\Hypertarget{flash_8c_source_l00076}00076 \textcolor{preprocessor}{\#endasm}}
+\DoxyCodeLine{\Hypertarget{flash_8c_source_l00077}00077 \}}
+\DoxyCodeLine{\Hypertarget{flash_8c_source_l00078}00078 }
+\DoxyCodeLine{\Hypertarget{flash_8c_source_l00079}00079 \textcolor{preprocessor}{\#ifdef \_WARNINGS\_ON\_}}
+\DoxyCodeLine{\Hypertarget{flash_8c_source_l00080}00080 \textcolor{preprocessor}{\#pragma warn+}}
+\DoxyCodeLine{\Hypertarget{flash_8c_source_l00081}00081 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{flash_8c_source_l00082}00082 }
+
+\end{DoxyCode}

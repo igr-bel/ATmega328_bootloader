@@ -1,0 +1,1385 @@
+\hypertarget{main_8c}{}\doxysection{//ws-\/rob-\/local/\+Obmen/boot\+\_\+test/\+ATmega328/main.c File Reference}
+\label{main_8c}\index{//ws-\/rob-\/local/Obmen/boot\_test/ATmega328/main.c@{//ws-\/rob-\/local/Obmen/boot\_test/ATmega328/main.c}}
+{\ttfamily \#include \char`\"{}defines.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}flash.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}crc16\+\_\+modbus.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}crc16\+\_\+ccitt.\+h\char`\"{}}\newline
+{\ttfamily \#include $<$stdio.\+h$>$}\newline
+\doxysubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{main_8c_ad4455691936f92fdd6c37566fc58ba1f}{BAUD\+\_\+\+RATE}}~115200
+\item 
+\#define \mbox{\hyperlink{main_8c_ab34cdf332b5426e121256a34090ee052}{BRREG\+\_\+\+VALUE}}~(\+\_\+\+MCU\+\_\+\+CLOCK\+\_\+\+FREQUENCY\+\_\+/(8$\ast$\mbox{\hyperlink{main_8c_ad4455691936f92fdd6c37566fc58ba1f}{BAUD\+\_\+\+RATE}})-\/1)
+\item 
+\#define \mbox{\hyperlink{main_8c_a0b85963cace75e76ae726bcffb04eb70}{DEVICE\+\_\+\+ID}}~\textquotesingle{}1\textquotesingle{}
+\item 
+\#define \mbox{\hyperlink{main_8c_a79d8fe8ca917501dc7fb7cde8948d725}{TIMER1\+\_\+\+OVF\+\_\+\+PERIOD}}~100
+\item 
+\#define \mbox{\hyperlink{main_8c_a7f8fd4af0a3ca2067f2da63b8845c5eb}{TIMER1\+\_\+\+CLK\+\_\+\+DIV}}~64
+\item 
+\#define \mbox{\hyperlink{main_8c_ae0177c9479150f7093e9047ed9010f2b}{TIMER1\+\_\+\+CNT\+\_\+\+INIT}}~(65536-\/(\+\_\+\+MCU\+\_\+\+CLOCK\+\_\+\+FREQUENCY\+\_\+$\ast$\mbox{\hyperlink{main_8c_a79d8fe8ca917501dc7fb7cde8948d725}{TIMER1\+\_\+\+OVF\+\_\+\+PERIOD}})/(\mbox{\hyperlink{main_8c_a7f8fd4af0a3ca2067f2da63b8845c5eb}{TIMER1\+\_\+\+CLK\+\_\+\+DIV}}$\ast$1000))
+\item 
+\#define \mbox{\hyperlink{main_8c_ad12b0b958c867002a53f3bb7fbb55c2a}{PKG\+\_\+\+WAIT\+\_\+\+TIMEOUT}}~5000
+\item 
+\#define \mbox{\hyperlink{main_8c_ae01bf81801ac13906a91fa05aa3efac1}{DATA\+\_\+\+REGISTER\+\_\+\+EMPTY}}~(1$<$$<$UDRE0)
+\item 
+\#define \mbox{\hyperlink{main_8c_a709b257e1fb534f1de5052f52e60cfc5}{RX\+\_\+\+COMPLETE}}~(1$<$$<$RXC0)
+\item 
+\#define \mbox{\hyperlink{main_8c_a5bf1d46877ac22d5e12d9b1c0432d373}{FRAMING\+\_\+\+ERROR}}~(1$<$$<$FE0)
+\item 
+\#define \mbox{\hyperlink{main_8c_a81d2ca6759f3f3bf04556b7558aea6bc}{PARITY\+\_\+\+ERROR}}~(1$<$$<$UPE0)
+\item 
+\#define \mbox{\hyperlink{main_8c_a71b59e9e65a8625df1d0af2143664c52}{DATA\+\_\+\+OVERRUN}}~(1$<$$<$DOR0)
+\item 
+\#define \mbox{\hyperlink{main_8c_acb5b6937244e1e776a7a98612bc3f09a}{USART\+\_\+\+DATA\+\_\+\+READY}}~rx\+\_\+counter0!=0
+\item 
+\#define \mbox{\hyperlink{main_8c_a41f9c5fb8b08eb5dc3edce4dcb37fee7}{true}}~1
+\item 
+\#define \mbox{\hyperlink{main_8c_a65e9886d74aaee76545e83dd09011727}{false}}~0
+\item 
+\#define \mbox{\hyperlink{main_8c_abb5cf6bfc6ded05d65ff41396f8a93b8}{DATA\+\_\+\+BUFF\+\_\+\+SIZE}}~150
+\item 
+\#define \mbox{\hyperlink{main_8c_a9a4d52a4d8572409d4f78847f9a625ce}{STD\+\_\+\+PKG\+\_\+\+SIZE}}~27
+\item 
+\#define \mbox{\hyperlink{main_8c_a725b282058f579e38083757912c83afd}{BIN\+\_\+\+PKG\+\_\+\+SIZE}}~143
+\item 
+\#define \mbox{\hyperlink{main_8c_a41a4393d44424a02bb2216835916993d}{SERVICE\+\_\+\+DATA\+\_\+\+SIZE}}~15
+\item 
+\#define \mbox{\hyperlink{main_8c_af630b02056635477dbb1729ac47c0fac}{DATA\+\_\+\+START\+\_\+\+BYTE}}~10
+\item 
+\#define \mbox{\hyperlink{main_8c_a9ab563d5b7731a780a07e20b66cb25f4}{DEV\+\_\+\+ID\+\_\+\+ADDR}}~0x01
+\item 
+\#define \mbox{\hyperlink{main_8c_aaf724716177d4321dbb2cf372afff4d1}{FW\+\_\+\+VERSION\+\_\+\+ADDR}}~0x02
+\item 
+\#define \mbox{\hyperlink{main_8c_ab426ec7e93ca321eb158d4cb78598955}{FW\+\_\+\+SIZE\+\_\+\+ADDR}}~0x03
+\item 
+\#define \mbox{\hyperlink{main_8c_a4404647bd5f54e649afc9ea4e4b639fa}{LAST\+\_\+\+WR\+\_\+\+PAGE\+\_\+\+ADDR}}~0x05
+\item 
+\#define \mbox{\hyperlink{main_8c_ae1df3070562816c29b28019a46706398}{DOWNLOAD\+\_\+\+CMPLT\+\_\+\+ADDR}}~0x07
+\item 
+\#define \mbox{\hyperlink{main_8c_a5c75718b301d2a7db7eabb9993123fe0}{NEW\+\_\+\+FW\+\_\+\+VERSION\+\_\+\+ADDR}}~0x08
+\item 
+\#define \mbox{\hyperlink{main_8c_a030935a11d26754b5bfdcdc8f818afbe}{EEPROM\+\_\+\+CRC\+\_\+\+ADDR}}~0x09
+\item 
+\#define \mbox{\hyperlink{main_8c_a4ac7e3fa40208406dc0fafb9d4cea1ee}{EEPROM\+\_\+\+DATA\+\_\+\+SIZE}}~8
+\item 
+\#define \mbox{\hyperlink{main_8c_acedccf92b4e13f1dbd0b8c8aaf2c1939}{RX\+\_\+\+BUFFER\+\_\+\+SIZE0}}~150
+\end{DoxyCompactItemize}
+\doxysubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \{ \newline
+\mbox{\hyperlink{main_8c_a06fc87d81c62e9abb8790b6e5713c55bafd6a0e4343048b10646dd2976cc5ad18}{IDLE}} = 0
+, \mbox{\hyperlink{main_8c_a06fc87d81c62e9abb8790b6e5713c55ba59e493bd5e4f1c81f3fbb5db177c42bb}{ASK\+\_\+\+FW\+\_\+\+PKG}}
+, \mbox{\hyperlink{main_8c_a06fc87d81c62e9abb8790b6e5713c55ba30a37f10faa13de5427b9ac824a0b629}{WAIT\+\_\+\+BOOT\+\_\+\+EN}}
+, \mbox{\hyperlink{main_8c_a06fc87d81c62e9abb8790b6e5713c55baacbdbc927e4f55997a868eeab79f6f1b}{WAIT\+\_\+\+STD\+\_\+\+PKG}}
+, \newline
+\mbox{\hyperlink{main_8c_a06fc87d81c62e9abb8790b6e5713c55ba37f2a73e3e86b8a7746393ea5391de78}{WAIT\+\_\+\+BIN\+\_\+\+DATA}}
+, \mbox{\hyperlink{main_8c_a06fc87d81c62e9abb8790b6e5713c55ba23b16e7eae961197d125f213b331d25a}{PARSE\+\_\+\+START\+\_\+\+PKG}}
+, \mbox{\hyperlink{main_8c_a06fc87d81c62e9abb8790b6e5713c55ba95a38ca80e4ca657e01ed254f9d3cdb4}{PARSE\+\_\+\+STD\+\_\+\+PKG}}
+, \mbox{\hyperlink{main_8c_a06fc87d81c62e9abb8790b6e5713c55ba1d4cef84d042be6ef53f893f3496ab9b}{PARSE\+\_\+\+BIN\+\_\+\+PKG}}
+, \newline
+\mbox{\hyperlink{main_8c_a06fc87d81c62e9abb8790b6e5713c55bacef81f99c9f6fa99311cbd746abd976a}{CHECK\+\_\+\+NEW\+\_\+\+DATA}}
+, \mbox{\hyperlink{main_8c_a06fc87d81c62e9abb8790b6e5713c55ba455ec018938d479f32add139d234469f}{EXE\+\_\+\+CMD}}
+, \mbox{\hyperlink{main_8c_a06fc87d81c62e9abb8790b6e5713c55ba4b7b68d1957349f685e7de6e2d25e59f}{UPD\+\_\+\+EEPROM}}
+, \mbox{\hyperlink{main_8c_a06fc87d81c62e9abb8790b6e5713c55ba02ecacd716fc828146702fe5263a1f2b}{UPD\+\_\+\+DATA\+\_\+\+BUFF}}
+, \newline
+\mbox{\hyperlink{main_8c_a06fc87d81c62e9abb8790b6e5713c55ba8e014d2a7eb22a0fd6b562d71f133e65}{UPD\+\_\+\+FLASH}}
+, \mbox{\hyperlink{main_8c_a06fc87d81c62e9abb8790b6e5713c55ba5193bde5d7e38596e1f4d9561ce4ce49}{ERASE\+\_\+\+UNUSE\+\_\+\+PAGES}}
+, \mbox{\hyperlink{main_8c_a06fc87d81c62e9abb8790b6e5713c55ba2d3fecf8df9c278561e3899887f7747b}{SEND\+\_\+\+UPG\+\_\+\+STATUS}}
+, \mbox{\hyperlink{main_8c_a06fc87d81c62e9abb8790b6e5713c55baab8ceb27815fe5922b8bb19352fc03e6}{EXIT\+\_\+\+BOOT}}
+ \}
+\item 
+enum \{ \mbox{\hyperlink{main_8c_adf764cbdea00d65edcd07bb9953ad2b7a70b6f9a97b30bbe1e1ec4bf3d12a8aae}{DATA\+\_\+\+OK}} = 0
+, \mbox{\hyperlink{main_8c_adf764cbdea00d65edcd07bb9953ad2b7a907d97c41566f6a26560dbf4b9d2570b}{DATA\+\_\+\+ERR}}
+ \}
+\item 
+enum \{ \newline
+\mbox{\hyperlink{main_8c_a99fb83031ce9923c84392b4e92f956b5ade34d75760c73a06947afd6afb10aa3c}{PKG\+\_\+\+NULL}} = 0
+, \mbox{\hyperlink{main_8c_a99fb83031ce9923c84392b4e92f956b5a10e92133c372a7641314ffa266b33320}{PKG\+\_\+\+INF}}
+, \mbox{\hyperlink{main_8c_a99fb83031ce9923c84392b4e92f956b5aec66b452e7c22d9d4ea3b4a4225cb9f1}{PKG\+\_\+\+RQS}}
+, \mbox{\hyperlink{main_8c_a99fb83031ce9923c84392b4e92f956b5aca46ca645d97fc706473034728a70b5a}{PKG\+\_\+\+RQL}}
+, \newline
+\mbox{\hyperlink{main_8c_a99fb83031ce9923c84392b4e92f956b5af1b47f96aef77be1feadde5f47ba7c56}{PKG\+\_\+\+UGR}}
+, \mbox{\hyperlink{main_8c_a99fb83031ce9923c84392b4e92f956b5aca2ba70d2c34a0afb238db4c76356528}{PKG\+\_\+\+BIN}}
+, \mbox{\hyperlink{main_8c_a99fb83031ce9923c84392b4e92f956b5ad5ea756b1aee97e02ee8cc7f6b3e4735}{PKG\+\_\+\+CMD}}
+, \mbox{\hyperlink{main_8c_a99fb83031ce9923c84392b4e92f956b5af8fea45cabfdd1815fbb3711a6a99644}{PKG\+\_\+\+FWV}}
+, \newline
+\mbox{\hyperlink{main_8c_a99fb83031ce9923c84392b4e92f956b5aa836502e4442173d25900b447782add1}{PKG\+\_\+\+FWL}}
+, \mbox{\hyperlink{main_8c_a99fb83031ce9923c84392b4e92f956b5a63545812d96e90220c6e4b3e2c9354e5}{PKG\+\_\+\+ERR}}
+ \}
+\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+interrupt\mbox{[}TIM1\+\_\+\+OVF\mbox{]} void \mbox{\hyperlink{main_8c_afbb7f0137cb9e57adb84bdf1673cfb96}{timer1\+\_\+ovf\+\_\+isr}} (void)
+\item 
+interrupt\mbox{[}USART\+\_\+\+RXC\mbox{]} void \mbox{\hyperlink{main_8c_ab31baf1a9994da57952eb2b08791b3e4}{usart\+\_\+rx\+\_\+isr}} (void)
+\item 
+void \mbox{\hyperlink{main_8c_af2be9bdc8d6182da38cd1fce435fc326}{startup\+\_\+init}} (void)
+\begin{DoxyCompactList}\small\item\em Hardware initialisation. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{main_8c_a98930c2a786b58dedab95240e6b3fa0f}{timer\+\_\+1\+\_\+stop}} ()
+\begin{DoxyCompactList}\small\item\em TC1 stop, turn off before out from boot section. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{main_8c_a9ec59f165509ab8215b8db7b71629bf2}{timer\+\_\+1\+\_\+start}} (unsigned int time\+\_\+ms)
+\begin{DoxyCompactList}\small\item\em Load delay conter and start timer 1. \end{DoxyCompactList}\item 
+char \mbox{\hyperlink{main_8c_a58a1350ca706c29bfe13eb984d89fd19}{chip\+\_\+erase}} (void)
+\begin{DoxyCompactList}\small\item\em Erase chip before write new data. \end{DoxyCompactList}\item 
+unsigned int \mbox{\hyperlink{main_8c_a7f494877c76424720b98970e9cc6c462}{read\+\_\+prog\+\_\+mem}} (\mbox{\hyperlink{defines_8h_a4b595026466c8543f25986713b81ef4f}{ADDR\+\_\+t}} addr)
+\begin{DoxyCompactList}\small\item\em Read one word from FLASH. \end{DoxyCompactList}\item 
+char \mbox{\hyperlink{main_8c_a2a7ab0ca1e474f490a29a9d3069d1181}{write\+\_\+prog\+\_\+mem}} (\mbox{\hyperlink{defines_8h_a4b595026466c8543f25986713b81ef4f}{ADDR\+\_\+t}} addr, unsigned int data)
+\begin{DoxyCompactList}\small\item\em Load one word of data to temp buffer before write to flash page. \end{DoxyCompactList}\item 
+char \mbox{\hyperlink{main_8c_a2116580a71a2489ce3da48229d83890a}{write\+\_\+page}} (\mbox{\hyperlink{defines_8h_a4b595026466c8543f25986713b81ef4f}{ADDR\+\_\+t}} addr)
+\begin{DoxyCompactList}\small\item\em Write data from temp buffer to flash page. \end{DoxyCompactList}\item 
+char \mbox{\hyperlink{main_8c_a47011afb285516ef5cef312fd0697e38}{write\+\_\+eeprom\+\_\+mem}} (\mbox{\hyperlink{defines_8h_a4b595026466c8543f25986713b81ef4f}{ADDR\+\_\+t}} addr, unsigned char data)
+\begin{DoxyCompactList}\small\item\em Write one byte of data to EEPROM. \end{DoxyCompactList}\item 
+char \mbox{\hyperlink{main_8c_a3968cc21f965d76e58b07a713179702d}{read\+\_\+eeprom\+\_\+mem}} (\mbox{\hyperlink{defines_8h_a4b595026466c8543f25986713b81ef4f}{ADDR\+\_\+t}} addr)
+\begin{DoxyCompactList}\small\item\em Read byte of data from EEPROM. \end{DoxyCompactList}\item 
+unsigned char \mbox{\hyperlink{main_8c_a56488a12487084746c108a7894bf806f}{Block\+Load}} (unsigned int size, unsigned int $\ast$p\+\_\+data\+\_\+buff, unsigned char mem\+\_\+type, \mbox{\hyperlink{defines_8h_a4b595026466c8543f25986713b81ef4f}{ADDR\+\_\+t}} $\ast$\mbox{\hyperlink{main_8c_a838b33e7eb752d6c06c06644340f10e1}{address}})
+\begin{DoxyCompactList}\small\item\em Write data buffer in FLASH or EEPROM memory. \end{DoxyCompactList}\item 
+unsigned char \mbox{\hyperlink{main_8c_a9d70f9900ed9b486ecebcd977dd6fb06}{Block\+Read}} (unsigned int size, unsigned int $\ast$p\+\_\+data\+\_\+buff, unsigned char mem\+\_\+type, \mbox{\hyperlink{defines_8h_a4b595026466c8543f25986713b81ef4f}{ADDR\+\_\+t}} $\ast$\mbox{\hyperlink{main_8c_a838b33e7eb752d6c06c06644340f10e1}{address}})
+\begin{DoxyCompactList}\small\item\em Read block data from EEPROM or FLASH. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{main_8c_a0e6f1b7aff1ad1818a2ca820bde67f60}{return\+\_\+signature}} (void)
+\begin{DoxyCompactList}\small\item\em Return signature of chip. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{main_8c_addbd25ece53e4a98d05ddb0fa9c54dc6}{exit\+\_\+bootloader}} (void)
+\begin{DoxyCompactList}\small\item\em Exit boot loader mode. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{main_8c_a705d8f5c02becd53affa1321a4b9d4d8}{new\+\_\+state}} (unsigned char new\+\_\+state)
+\begin{DoxyCompactList}\small\item\em Change STATE MACHINE state, and save previous state. \end{DoxyCompactList}\item 
+unsigned char \mbox{\hyperlink{main_8c_ad59aefc5ae0be87672b85db230106d16}{check\+\_\+save\+\_\+pkg}} (unsigned int data\+\_\+length)
+\begin{DoxyCompactList}\small\item\em Check and save input data. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{main_8c_a7ab263b676b177dca00c4c3c02f855fd}{get\+\_\+pkg\+\_\+type}} (void)
+\begin{DoxyCompactList}\small\item\em Read packege, set the last\+\_\+pkg\+\_\+type. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{main_8c_a2f20dde935c22984143ba946ee4bd996}{req\+\_\+start\+\_\+byte}} (unsigned int addr)
+\begin{DoxyCompactList}\small\item\em Send request with start address of next FW package. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{main_8c_a3756a9aa237700205c05b22eb941eea4}{req\+\_\+data\+\_\+length}} (unsigned int length)
+\begin{DoxyCompactList}\small\item\em Send request with length of next FW package. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{main_8c_a327dc2802189b45182dc8f914326bbc5}{send\+\_\+upgd\+\_\+result}} (unsigned int result)
+\begin{DoxyCompactList}\small\item\em Send update flash result. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{main_8c_a59bc10d5b50d0f3cabd5aaa9ea7347b2}{update\+\_\+eeprom\+\_\+crc}} (void)
+\begin{DoxyCompactList}\small\item\em Get new EEPROM data? calculate CRC and save. \end{DoxyCompactList}\item 
+char \mbox{\hyperlink{main_8c_af0d08de095c0c6a062d084562f436b9e}{get\+\_\+char}} (void)
+\begin{DoxyCompactList}\small\item\em Get the char from ring USART RX-\/buffer. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{main_8c_a761b4ce6453ebde52ca9cd3b9771569a}{atoh}} (unsigned char $\ast$ascii\+\_\+ptr, unsigned char $\ast$hex\+\_\+ptr, unsigned int len)
+\begin{DoxyCompactList}\small\item\em Convert ASCII string to hex. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{main_8c_a6288eba0f8e8ad3ab1544ad731eb7667}{main}} (void)
+\end{DoxyCompactItemize}
+\doxysubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+volatile unsigned int \mbox{\hyperlink{main_8c_ada76f06967cb4ee0c91f105036c4f449}{timer\+\_\+1\+\_\+delay\+\_\+cnt}}
+\item 
+char \mbox{\hyperlink{main_8c_aaaf8638133f81a27f58f175af5d6f313}{lookup}} \mbox{[}$\,$\mbox{]}
+\item 
+\mbox{\hyperlink{defines_8h_a4b595026466c8543f25986713b81ef4f}{ADDR\+\_\+t}} \mbox{\hyperlink{main_8c_a838b33e7eb752d6c06c06644340f10e1}{address}} = 0x00
+\item 
+unsigned int \mbox{\hyperlink{main_8c_af57000005dac4368890899b6913bb5e4}{data\+\_\+buff}} \mbox{[}\mbox{\hyperlink{main_8c_abb5cf6bfc6ded05d65ff41396f8a93b8}{DATA\+\_\+\+BUFF\+\_\+\+SIZE}}\mbox{]}
+\item 
+unsigned char \mbox{\hyperlink{main_8c_ac8e76186c89c96ec01e229e6d7611192}{eprom\+\_\+crc\+\_\+buff}} \mbox{[}\mbox{\hyperlink{main_8c_a4ac7e3fa40208406dc0fafb9d4cea1ee}{EEPROM\+\_\+\+DATA\+\_\+\+SIZE}}\mbox{]}
+\item 
+unsigned int \mbox{\hyperlink{main_8c_a03d0a894eabc1433ae4bb58403a1c5eb}{loop\+\_\+index}} = 0
+\item 
+char \mbox{\hyperlink{main_8c_a160bbe832b2c6af8edb49d371aef2388}{i}}
+\item 
+char \mbox{\hyperlink{main_8c_af557386e7a78227150787678e5d37585}{j}}
+\item 
+unsigned int \mbox{\hyperlink{main_8c_ad06bcbea0bbc069bac904f6aa6b1be93}{page\+\_\+counter}} = 0x00
+\item 
+unsigned int \mbox{\hyperlink{main_8c_a58d04bb4830a111b6b43d4d9d732ec5c}{last\+\_\+pkg\+\_\+size}}
+\item 
+unsigned int \mbox{\hyperlink{main_8c_a19f12c5df273f3cd8bb683d49d26922e}{new\+\_\+fw\+\_\+size}}
+\item 
+unsigned int \mbox{\hyperlink{main_8c_a1062b94202e6fd2eb9f10f47dab57dde}{loaded\+\_\+data\+\_\+size}}
+\item 
+char \mbox{\hyperlink{main_8c_ad19aeba226250674fb7c92f2aa5da264}{rx\+\_\+buffer0}} \mbox{[}\mbox{\hyperlink{main_8c_acedccf92b4e13f1dbd0b8c8aaf2c1939}{RX\+\_\+\+BUFFER\+\_\+\+SIZE0}}\mbox{]}
+\item 
+unsigned char \mbox{\hyperlink{main_8c_a93b6dec843d85b514fd1c2a8bde2f41c}{rx\+\_\+wr\+\_\+index0}} = 0
+\item 
+unsigned char \mbox{\hyperlink{main_8c_a1bea8d16e80f6bb30b4f60e3c91c396e}{rx\+\_\+rd\+\_\+index0}} = 0
+\item 
+unsigned char \mbox{\hyperlink{main_8c_a8ea16abd0e11c876bbe4469a22ec974e}{rx\+\_\+counter0}} = 0
+\item 
+unsigned int \mbox{\hyperlink{main_8c_a8416e8b8289753182f695ed3528691c1}{i\+\_\+temp\+\_\+var}}
+\item 
+unsigned int \mbox{\hyperlink{main_8c_ae38d57d40a36caf09afc2279ad501581}{j\+\_\+temp\+\_\+var}}
+\item 
+bit \mbox{\hyperlink{main_8c_a508081f8eb7da70247baccc0d569bd7f}{rx\+\_\+buffer\+\_\+overflow0}}
+\item 
+volatile unsigned char \mbox{\hyperlink{main_8c_a3e6ec5e558a2ddd645ce151344b69ff9}{last\+\_\+pkg\+\_\+type}}
+\item 
+unsigned char \mbox{\hyperlink{main_8c_a086367ffb13ed25a702ba45e6e0c7ab3}{current\+\_\+state}}
+\item 
+unsigned char \mbox{\hyperlink{main_8c_ad24a7209740a83b880691380fbe8e0e9}{prev\+\_\+state}}
+\item 
+unsigned char \mbox{\hyperlink{main_8c_a3910438d242226226036f588ceb2d9da}{fw\+\_\+version\+\_\+saved}} = \mbox{\hyperlink{main_8c_a65e9886d74aaee76545e83dd09011727}{false}}
+\item 
+unsigned char \mbox{\hyperlink{main_8c_a31d59520126bf9cf5e7695da8b236555}{fw\+\_\+length\+\_\+saved}} = \mbox{\hyperlink{main_8c_a65e9886d74aaee76545e83dd09011727}{false}}
+\item 
+unsigned char \mbox{\hyperlink{main_8c_a8a173dc278c1c2663eddf9dbb1b4eece}{last\+\_\+fw\+\_\+part\+\_\+flg}} = \mbox{\hyperlink{main_8c_a65e9886d74aaee76545e83dd09011727}{false}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Macro Definition Documentation}
+\mbox{\Hypertarget{main_8c_ad4455691936f92fdd6c37566fc58ba1f}\label{main_8c_ad4455691936f92fdd6c37566fc58ba1f}} 
+\index{main.c@{main.c}!BAUD\_RATE@{BAUD\_RATE}}
+\index{BAUD\_RATE@{BAUD\_RATE}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{BAUD\_RATE}{BAUD\_RATE}}
+{\footnotesize\ttfamily \#define BAUD\+\_\+\+RATE~115200}
+
+
+
+Definition at line \mbox{\hyperlink{main_8c_source_l00013}{13}} of file \mbox{\hyperlink{main_8c_source}{main.\+c}}.
+
+\mbox{\Hypertarget{main_8c_a725b282058f579e38083757912c83afd}\label{main_8c_a725b282058f579e38083757912c83afd}} 
+\index{main.c@{main.c}!BIN\_PKG\_SIZE@{BIN\_PKG\_SIZE}}
+\index{BIN\_PKG\_SIZE@{BIN\_PKG\_SIZE}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{BIN\_PKG\_SIZE}{BIN\_PKG\_SIZE}}
+{\footnotesize\ttfamily \#define BIN\+\_\+\+PKG\+\_\+\+SIZE~143}
+
+
+
+Definition at line \mbox{\hyperlink{main_8c_source_l00038}{38}} of file \mbox{\hyperlink{main_8c_source}{main.\+c}}.
+
+\mbox{\Hypertarget{main_8c_ab34cdf332b5426e121256a34090ee052}\label{main_8c_ab34cdf332b5426e121256a34090ee052}} 
+\index{main.c@{main.c}!BRREG\_VALUE@{BRREG\_VALUE}}
+\index{BRREG\_VALUE@{BRREG\_VALUE}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{BRREG\_VALUE}{BRREG\_VALUE}}
+{\footnotesize\ttfamily \#define BRREG\+\_\+\+VALUE~(\+\_\+\+MCU\+\_\+\+CLOCK\+\_\+\+FREQUENCY\+\_\+/(8$\ast$\mbox{\hyperlink{main_8c_ad4455691936f92fdd6c37566fc58ba1f}{BAUD\+\_\+\+RATE}})-\/1)}
+
+
+
+Definition at line \mbox{\hyperlink{main_8c_source_l00015}{15}} of file \mbox{\hyperlink{main_8c_source}{main.\+c}}.
+
+\mbox{\Hypertarget{main_8c_abb5cf6bfc6ded05d65ff41396f8a93b8}\label{main_8c_abb5cf6bfc6ded05d65ff41396f8a93b8}} 
+\index{main.c@{main.c}!DATA\_BUFF\_SIZE@{DATA\_BUFF\_SIZE}}
+\index{DATA\_BUFF\_SIZE@{DATA\_BUFF\_SIZE}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{DATA\_BUFF\_SIZE}{DATA\_BUFF\_SIZE}}
+{\footnotesize\ttfamily \#define DATA\+\_\+\+BUFF\+\_\+\+SIZE~150}
+
+
+
+Definition at line \mbox{\hyperlink{main_8c_source_l00036}{36}} of file \mbox{\hyperlink{main_8c_source}{main.\+c}}.
+
+\mbox{\Hypertarget{main_8c_a71b59e9e65a8625df1d0af2143664c52}\label{main_8c_a71b59e9e65a8625df1d0af2143664c52}} 
+\index{main.c@{main.c}!DATA\_OVERRUN@{DATA\_OVERRUN}}
+\index{DATA\_OVERRUN@{DATA\_OVERRUN}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{DATA\_OVERRUN}{DATA\_OVERRUN}}
+{\footnotesize\ttfamily \#define DATA\+\_\+\+OVERRUN~(1$<$$<$DOR0)}
+
+
+
+Definition at line \mbox{\hyperlink{main_8c_source_l00029}{29}} of file \mbox{\hyperlink{main_8c_source}{main.\+c}}.
+
+\mbox{\Hypertarget{main_8c_ae01bf81801ac13906a91fa05aa3efac1}\label{main_8c_ae01bf81801ac13906a91fa05aa3efac1}} 
+\index{main.c@{main.c}!DATA\_REGISTER\_EMPTY@{DATA\_REGISTER\_EMPTY}}
+\index{DATA\_REGISTER\_EMPTY@{DATA\_REGISTER\_EMPTY}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{DATA\_REGISTER\_EMPTY}{DATA\_REGISTER\_EMPTY}}
+{\footnotesize\ttfamily \#define DATA\+\_\+\+REGISTER\+\_\+\+EMPTY~(1$<$$<$UDRE0)}
+
+
+
+Definition at line \mbox{\hyperlink{main_8c_source_l00025}{25}} of file \mbox{\hyperlink{main_8c_source}{main.\+c}}.
+
+\mbox{\Hypertarget{main_8c_af630b02056635477dbb1729ac47c0fac}\label{main_8c_af630b02056635477dbb1729ac47c0fac}} 
+\index{main.c@{main.c}!DATA\_START\_BYTE@{DATA\_START\_BYTE}}
+\index{DATA\_START\_BYTE@{DATA\_START\_BYTE}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{DATA\_START\_BYTE}{DATA\_START\_BYTE}}
+{\footnotesize\ttfamily \#define DATA\+\_\+\+START\+\_\+\+BYTE~10}
+
+
+
+Definition at line \mbox{\hyperlink{main_8c_source_l00040}{40}} of file \mbox{\hyperlink{main_8c_source}{main.\+c}}.
+
+\mbox{\Hypertarget{main_8c_a9ab563d5b7731a780a07e20b66cb25f4}\label{main_8c_a9ab563d5b7731a780a07e20b66cb25f4}} 
+\index{main.c@{main.c}!DEV\_ID\_ADDR@{DEV\_ID\_ADDR}}
+\index{DEV\_ID\_ADDR@{DEV\_ID\_ADDR}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{DEV\_ID\_ADDR}{DEV\_ID\_ADDR}}
+{\footnotesize\ttfamily \#define DEV\+\_\+\+ID\+\_\+\+ADDR~0x01}
+
+
+
+Definition at line \mbox{\hyperlink{main_8c_source_l00043}{43}} of file \mbox{\hyperlink{main_8c_source}{main.\+c}}.
+
+\mbox{\Hypertarget{main_8c_a0b85963cace75e76ae726bcffb04eb70}\label{main_8c_a0b85963cace75e76ae726bcffb04eb70}} 
+\index{main.c@{main.c}!DEVICE\_ID@{DEVICE\_ID}}
+\index{DEVICE\_ID@{DEVICE\_ID}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{DEVICE\_ID}{DEVICE\_ID}}
+{\footnotesize\ttfamily \#define DEVICE\+\_\+\+ID~\textquotesingle{}1\textquotesingle{}}
+
+
+
+Definition at line \mbox{\hyperlink{main_8c_source_l00017}{17}} of file \mbox{\hyperlink{main_8c_source}{main.\+c}}.
+
+\mbox{\Hypertarget{main_8c_ae1df3070562816c29b28019a46706398}\label{main_8c_ae1df3070562816c29b28019a46706398}} 
+\index{main.c@{main.c}!DOWNLOAD\_CMPLT\_ADDR@{DOWNLOAD\_CMPLT\_ADDR}}
+\index{DOWNLOAD\_CMPLT\_ADDR@{DOWNLOAD\_CMPLT\_ADDR}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{DOWNLOAD\_CMPLT\_ADDR}{DOWNLOAD\_CMPLT\_ADDR}}
+{\footnotesize\ttfamily \#define DOWNLOAD\+\_\+\+CMPLT\+\_\+\+ADDR~0x07}
+
+
+
+Definition at line \mbox{\hyperlink{main_8c_source_l00047}{47}} of file \mbox{\hyperlink{main_8c_source}{main.\+c}}.
+
+\mbox{\Hypertarget{main_8c_a030935a11d26754b5bfdcdc8f818afbe}\label{main_8c_a030935a11d26754b5bfdcdc8f818afbe}} 
+\index{main.c@{main.c}!EEPROM\_CRC\_ADDR@{EEPROM\_CRC\_ADDR}}
+\index{EEPROM\_CRC\_ADDR@{EEPROM\_CRC\_ADDR}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{EEPROM\_CRC\_ADDR}{EEPROM\_CRC\_ADDR}}
+{\footnotesize\ttfamily \#define EEPROM\+\_\+\+CRC\+\_\+\+ADDR~0x09}
+
+
+
+Definition at line \mbox{\hyperlink{main_8c_source_l00049}{49}} of file \mbox{\hyperlink{main_8c_source}{main.\+c}}.
+
+\mbox{\Hypertarget{main_8c_a4ac7e3fa40208406dc0fafb9d4cea1ee}\label{main_8c_a4ac7e3fa40208406dc0fafb9d4cea1ee}} 
+\index{main.c@{main.c}!EEPROM\_DATA\_SIZE@{EEPROM\_DATA\_SIZE}}
+\index{EEPROM\_DATA\_SIZE@{EEPROM\_DATA\_SIZE}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{EEPROM\_DATA\_SIZE}{EEPROM\_DATA\_SIZE}}
+{\footnotesize\ttfamily \#define EEPROM\+\_\+\+DATA\+\_\+\+SIZE~8}
+
+
+
+Definition at line \mbox{\hyperlink{main_8c_source_l00050}{50}} of file \mbox{\hyperlink{main_8c_source}{main.\+c}}.
+
+\mbox{\Hypertarget{main_8c_a65e9886d74aaee76545e83dd09011727}\label{main_8c_a65e9886d74aaee76545e83dd09011727}} 
+\index{main.c@{main.c}!false@{false}}
+\index{false@{false}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{false}{false}}
+{\footnotesize\ttfamily \#define false~0}
+
+
+
+Definition at line \mbox{\hyperlink{main_8c_source_l00033}{33}} of file \mbox{\hyperlink{main_8c_source}{main.\+c}}.
+
+\mbox{\Hypertarget{main_8c_a5bf1d46877ac22d5e12d9b1c0432d373}\label{main_8c_a5bf1d46877ac22d5e12d9b1c0432d373}} 
+\index{main.c@{main.c}!FRAMING\_ERROR@{FRAMING\_ERROR}}
+\index{FRAMING\_ERROR@{FRAMING\_ERROR}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{FRAMING\_ERROR}{FRAMING\_ERROR}}
+{\footnotesize\ttfamily \#define FRAMING\+\_\+\+ERROR~(1$<$$<$FE0)}
+
+
+
+Definition at line \mbox{\hyperlink{main_8c_source_l00027}{27}} of file \mbox{\hyperlink{main_8c_source}{main.\+c}}.
+
+\mbox{\Hypertarget{main_8c_ab426ec7e93ca321eb158d4cb78598955}\label{main_8c_ab426ec7e93ca321eb158d4cb78598955}} 
+\index{main.c@{main.c}!FW\_SIZE\_ADDR@{FW\_SIZE\_ADDR}}
+\index{FW\_SIZE\_ADDR@{FW\_SIZE\_ADDR}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{FW\_SIZE\_ADDR}{FW\_SIZE\_ADDR}}
+{\footnotesize\ttfamily \#define FW\+\_\+\+SIZE\+\_\+\+ADDR~0x03}
+
+
+
+Definition at line \mbox{\hyperlink{main_8c_source_l00045}{45}} of file \mbox{\hyperlink{main_8c_source}{main.\+c}}.
+
+\mbox{\Hypertarget{main_8c_aaf724716177d4321dbb2cf372afff4d1}\label{main_8c_aaf724716177d4321dbb2cf372afff4d1}} 
+\index{main.c@{main.c}!FW\_VERSION\_ADDR@{FW\_VERSION\_ADDR}}
+\index{FW\_VERSION\_ADDR@{FW\_VERSION\_ADDR}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{FW\_VERSION\_ADDR}{FW\_VERSION\_ADDR}}
+{\footnotesize\ttfamily \#define FW\+\_\+\+VERSION\+\_\+\+ADDR~0x02}
+
+
+
+Definition at line \mbox{\hyperlink{main_8c_source_l00044}{44}} of file \mbox{\hyperlink{main_8c_source}{main.\+c}}.
+
+\mbox{\Hypertarget{main_8c_a4404647bd5f54e649afc9ea4e4b639fa}\label{main_8c_a4404647bd5f54e649afc9ea4e4b639fa}} 
+\index{main.c@{main.c}!LAST\_WR\_PAGE\_ADDR@{LAST\_WR\_PAGE\_ADDR}}
+\index{LAST\_WR\_PAGE\_ADDR@{LAST\_WR\_PAGE\_ADDR}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{LAST\_WR\_PAGE\_ADDR}{LAST\_WR\_PAGE\_ADDR}}
+{\footnotesize\ttfamily \#define LAST\+\_\+\+WR\+\_\+\+PAGE\+\_\+\+ADDR~0x05}
+
+
+
+Definition at line \mbox{\hyperlink{main_8c_source_l00046}{46}} of file \mbox{\hyperlink{main_8c_source}{main.\+c}}.
+
+\mbox{\Hypertarget{main_8c_a5c75718b301d2a7db7eabb9993123fe0}\label{main_8c_a5c75718b301d2a7db7eabb9993123fe0}} 
+\index{main.c@{main.c}!NEW\_FW\_VERSION\_ADDR@{NEW\_FW\_VERSION\_ADDR}}
+\index{NEW\_FW\_VERSION\_ADDR@{NEW\_FW\_VERSION\_ADDR}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{NEW\_FW\_VERSION\_ADDR}{NEW\_FW\_VERSION\_ADDR}}
+{\footnotesize\ttfamily \#define NEW\+\_\+\+FW\+\_\+\+VERSION\+\_\+\+ADDR~0x08}
+
+
+
+Definition at line \mbox{\hyperlink{main_8c_source_l00048}{48}} of file \mbox{\hyperlink{main_8c_source}{main.\+c}}.
+
+\mbox{\Hypertarget{main_8c_a81d2ca6759f3f3bf04556b7558aea6bc}\label{main_8c_a81d2ca6759f3f3bf04556b7558aea6bc}} 
+\index{main.c@{main.c}!PARITY\_ERROR@{PARITY\_ERROR}}
+\index{PARITY\_ERROR@{PARITY\_ERROR}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{PARITY\_ERROR}{PARITY\_ERROR}}
+{\footnotesize\ttfamily \#define PARITY\+\_\+\+ERROR~(1$<$$<$UPE0)}
+
+
+
+Definition at line \mbox{\hyperlink{main_8c_source_l00028}{28}} of file \mbox{\hyperlink{main_8c_source}{main.\+c}}.
+
+\mbox{\Hypertarget{main_8c_ad12b0b958c867002a53f3bb7fbb55c2a}\label{main_8c_ad12b0b958c867002a53f3bb7fbb55c2a}} 
+\index{main.c@{main.c}!PKG\_WAIT\_TIMEOUT@{PKG\_WAIT\_TIMEOUT}}
+\index{PKG\_WAIT\_TIMEOUT@{PKG\_WAIT\_TIMEOUT}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{PKG\_WAIT\_TIMEOUT}{PKG\_WAIT\_TIMEOUT}}
+{\footnotesize\ttfamily \#define PKG\+\_\+\+WAIT\+\_\+\+TIMEOUT~5000}
+
+
+
+Definition at line \mbox{\hyperlink{main_8c_source_l00023}{23}} of file \mbox{\hyperlink{main_8c_source}{main.\+c}}.
+
+\mbox{\Hypertarget{main_8c_acedccf92b4e13f1dbd0b8c8aaf2c1939}\label{main_8c_acedccf92b4e13f1dbd0b8c8aaf2c1939}} 
+\index{main.c@{main.c}!RX\_BUFFER\_SIZE0@{RX\_BUFFER\_SIZE0}}
+\index{RX\_BUFFER\_SIZE0@{RX\_BUFFER\_SIZE0}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{RX\_BUFFER\_SIZE0}{RX\_BUFFER\_SIZE0}}
+{\footnotesize\ttfamily \#define RX\+\_\+\+BUFFER\+\_\+\+SIZE0~150}
+
+
+
+Definition at line \mbox{\hyperlink{main_8c_source_l00070}{70}} of file \mbox{\hyperlink{main_8c_source}{main.\+c}}.
+
+\mbox{\Hypertarget{main_8c_a709b257e1fb534f1de5052f52e60cfc5}\label{main_8c_a709b257e1fb534f1de5052f52e60cfc5}} 
+\index{main.c@{main.c}!RX\_COMPLETE@{RX\_COMPLETE}}
+\index{RX\_COMPLETE@{RX\_COMPLETE}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{RX\_COMPLETE}{RX\_COMPLETE}}
+{\footnotesize\ttfamily \#define RX\+\_\+\+COMPLETE~(1$<$$<$RXC0)}
+
+
+
+Definition at line \mbox{\hyperlink{main_8c_source_l00026}{26}} of file \mbox{\hyperlink{main_8c_source}{main.\+c}}.
+
+\mbox{\Hypertarget{main_8c_a41a4393d44424a02bb2216835916993d}\label{main_8c_a41a4393d44424a02bb2216835916993d}} 
+\index{main.c@{main.c}!SERVICE\_DATA\_SIZE@{SERVICE\_DATA\_SIZE}}
+\index{SERVICE\_DATA\_SIZE@{SERVICE\_DATA\_SIZE}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{SERVICE\_DATA\_SIZE}{SERVICE\_DATA\_SIZE}}
+{\footnotesize\ttfamily \#define SERVICE\+\_\+\+DATA\+\_\+\+SIZE~15}
+
+
+
+Definition at line \mbox{\hyperlink{main_8c_source_l00039}{39}} of file \mbox{\hyperlink{main_8c_source}{main.\+c}}.
+
+\mbox{\Hypertarget{main_8c_a9a4d52a4d8572409d4f78847f9a625ce}\label{main_8c_a9a4d52a4d8572409d4f78847f9a625ce}} 
+\index{main.c@{main.c}!STD\_PKG\_SIZE@{STD\_PKG\_SIZE}}
+\index{STD\_PKG\_SIZE@{STD\_PKG\_SIZE}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{STD\_PKG\_SIZE}{STD\_PKG\_SIZE}}
+{\footnotesize\ttfamily \#define STD\+\_\+\+PKG\+\_\+\+SIZE~27}
+
+
+
+Definition at line \mbox{\hyperlink{main_8c_source_l00037}{37}} of file \mbox{\hyperlink{main_8c_source}{main.\+c}}.
+
+\mbox{\Hypertarget{main_8c_a7f8fd4af0a3ca2067f2da63b8845c5eb}\label{main_8c_a7f8fd4af0a3ca2067f2da63b8845c5eb}} 
+\index{main.c@{main.c}!TIMER1\_CLK\_DIV@{TIMER1\_CLK\_DIV}}
+\index{TIMER1\_CLK\_DIV@{TIMER1\_CLK\_DIV}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{TIMER1\_CLK\_DIV}{TIMER1\_CLK\_DIV}}
+{\footnotesize\ttfamily \#define TIMER1\+\_\+\+CLK\+\_\+\+DIV~64}
+
+
+
+Definition at line \mbox{\hyperlink{main_8c_source_l00020}{20}} of file \mbox{\hyperlink{main_8c_source}{main.\+c}}.
+
+\mbox{\Hypertarget{main_8c_ae0177c9479150f7093e9047ed9010f2b}\label{main_8c_ae0177c9479150f7093e9047ed9010f2b}} 
+\index{main.c@{main.c}!TIMER1\_CNT\_INIT@{TIMER1\_CNT\_INIT}}
+\index{TIMER1\_CNT\_INIT@{TIMER1\_CNT\_INIT}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{TIMER1\_CNT\_INIT}{TIMER1\_CNT\_INIT}}
+{\footnotesize\ttfamily \#define TIMER1\+\_\+\+CNT\+\_\+\+INIT~(65536-\/(\+\_\+\+MCU\+\_\+\+CLOCK\+\_\+\+FREQUENCY\+\_\+$\ast$\mbox{\hyperlink{main_8c_a79d8fe8ca917501dc7fb7cde8948d725}{TIMER1\+\_\+\+OVF\+\_\+\+PERIOD}})/(\mbox{\hyperlink{main_8c_a7f8fd4af0a3ca2067f2da63b8845c5eb}{TIMER1\+\_\+\+CLK\+\_\+\+DIV}}$\ast$1000))}
+
+
+
+Definition at line \mbox{\hyperlink{main_8c_source_l00021}{21}} of file \mbox{\hyperlink{main_8c_source}{main.\+c}}.
+
+\mbox{\Hypertarget{main_8c_a79d8fe8ca917501dc7fb7cde8948d725}\label{main_8c_a79d8fe8ca917501dc7fb7cde8948d725}} 
+\index{main.c@{main.c}!TIMER1\_OVF\_PERIOD@{TIMER1\_OVF\_PERIOD}}
+\index{TIMER1\_OVF\_PERIOD@{TIMER1\_OVF\_PERIOD}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{TIMER1\_OVF\_PERIOD}{TIMER1\_OVF\_PERIOD}}
+{\footnotesize\ttfamily \#define TIMER1\+\_\+\+OVF\+\_\+\+PERIOD~100}
+
+
+
+Definition at line \mbox{\hyperlink{main_8c_source_l00019}{19}} of file \mbox{\hyperlink{main_8c_source}{main.\+c}}.
+
+\mbox{\Hypertarget{main_8c_a41f9c5fb8b08eb5dc3edce4dcb37fee7}\label{main_8c_a41f9c5fb8b08eb5dc3edce4dcb37fee7}} 
+\index{main.c@{main.c}!true@{true}}
+\index{true@{true}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{true}{true}}
+{\footnotesize\ttfamily \#define true~1}
+
+
+
+Definition at line \mbox{\hyperlink{main_8c_source_l00032}{32}} of file \mbox{\hyperlink{main_8c_source}{main.\+c}}.
+
+\mbox{\Hypertarget{main_8c_acb5b6937244e1e776a7a98612bc3f09a}\label{main_8c_acb5b6937244e1e776a7a98612bc3f09a}} 
+\index{main.c@{main.c}!USART\_DATA\_READY@{USART\_DATA\_READY}}
+\index{USART\_DATA\_READY@{USART\_DATA\_READY}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{USART\_DATA\_READY}{USART\_DATA\_READY}}
+{\footnotesize\ttfamily \#define USART\+\_\+\+DATA\+\_\+\+READY~rx\+\_\+counter0!=0}
+
+
+
+Definition at line \mbox{\hyperlink{main_8c_source_l00030}{30}} of file \mbox{\hyperlink{main_8c_source}{main.\+c}}.
+
+
+
+\doxysubsection{Enumeration Type Documentation}
+\mbox{\Hypertarget{main_8c_a06fc87d81c62e9abb8790b6e5713c55b}\label{main_8c_a06fc87d81c62e9abb8790b6e5713c55b}} 
+\doxysubsubsection{\texorpdfstring{anonymous enum}{anonymous enum}}
+{\footnotesize\ttfamily anonymous enum}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{IDLE@{IDLE}!main.c@{main.c}}\index{main.c@{main.c}!IDLE@{IDLE}}}\mbox{\Hypertarget{main_8c_a06fc87d81c62e9abb8790b6e5713c55bafd6a0e4343048b10646dd2976cc5ad18}\label{main_8c_a06fc87d81c62e9abb8790b6e5713c55bafd6a0e4343048b10646dd2976cc5ad18}} 
+IDLE&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{ASK\_FW\_PKG@{ASK\_FW\_PKG}!main.c@{main.c}}\index{main.c@{main.c}!ASK\_FW\_PKG@{ASK\_FW\_PKG}}}\mbox{\Hypertarget{main_8c_a06fc87d81c62e9abb8790b6e5713c55ba59e493bd5e4f1c81f3fbb5db177c42bb}\label{main_8c_a06fc87d81c62e9abb8790b6e5713c55ba59e493bd5e4f1c81f3fbb5db177c42bb}} 
+ASK\+\_\+\+FW\+\_\+\+PKG&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{WAIT\_BOOT\_EN@{WAIT\_BOOT\_EN}!main.c@{main.c}}\index{main.c@{main.c}!WAIT\_BOOT\_EN@{WAIT\_BOOT\_EN}}}\mbox{\Hypertarget{main_8c_a06fc87d81c62e9abb8790b6e5713c55ba30a37f10faa13de5427b9ac824a0b629}\label{main_8c_a06fc87d81c62e9abb8790b6e5713c55ba30a37f10faa13de5427b9ac824a0b629}} 
+WAIT\+\_\+\+BOOT\+\_\+\+EN&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{WAIT\_STD\_PKG@{WAIT\_STD\_PKG}!main.c@{main.c}}\index{main.c@{main.c}!WAIT\_STD\_PKG@{WAIT\_STD\_PKG}}}\mbox{\Hypertarget{main_8c_a06fc87d81c62e9abb8790b6e5713c55baacbdbc927e4f55997a868eeab79f6f1b}\label{main_8c_a06fc87d81c62e9abb8790b6e5713c55baacbdbc927e4f55997a868eeab79f6f1b}} 
+WAIT\+\_\+\+STD\+\_\+\+PKG&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{WAIT\_BIN\_DATA@{WAIT\_BIN\_DATA}!main.c@{main.c}}\index{main.c@{main.c}!WAIT\_BIN\_DATA@{WAIT\_BIN\_DATA}}}\mbox{\Hypertarget{main_8c_a06fc87d81c62e9abb8790b6e5713c55ba37f2a73e3e86b8a7746393ea5391de78}\label{main_8c_a06fc87d81c62e9abb8790b6e5713c55ba37f2a73e3e86b8a7746393ea5391de78}} 
+WAIT\+\_\+\+BIN\+\_\+\+DATA&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{PARSE\_START\_PKG@{PARSE\_START\_PKG}!main.c@{main.c}}\index{main.c@{main.c}!PARSE\_START\_PKG@{PARSE\_START\_PKG}}}\mbox{\Hypertarget{main_8c_a06fc87d81c62e9abb8790b6e5713c55ba23b16e7eae961197d125f213b331d25a}\label{main_8c_a06fc87d81c62e9abb8790b6e5713c55ba23b16e7eae961197d125f213b331d25a}} 
+PARSE\+\_\+\+START\+\_\+\+PKG&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{PARSE\_STD\_PKG@{PARSE\_STD\_PKG}!main.c@{main.c}}\index{main.c@{main.c}!PARSE\_STD\_PKG@{PARSE\_STD\_PKG}}}\mbox{\Hypertarget{main_8c_a06fc87d81c62e9abb8790b6e5713c55ba95a38ca80e4ca657e01ed254f9d3cdb4}\label{main_8c_a06fc87d81c62e9abb8790b6e5713c55ba95a38ca80e4ca657e01ed254f9d3cdb4}} 
+PARSE\+\_\+\+STD\+\_\+\+PKG&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{PARSE\_BIN\_PKG@{PARSE\_BIN\_PKG}!main.c@{main.c}}\index{main.c@{main.c}!PARSE\_BIN\_PKG@{PARSE\_BIN\_PKG}}}\mbox{\Hypertarget{main_8c_a06fc87d81c62e9abb8790b6e5713c55ba1d4cef84d042be6ef53f893f3496ab9b}\label{main_8c_a06fc87d81c62e9abb8790b6e5713c55ba1d4cef84d042be6ef53f893f3496ab9b}} 
+PARSE\+\_\+\+BIN\+\_\+\+PKG&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CHECK\_NEW\_DATA@{CHECK\_NEW\_DATA}!main.c@{main.c}}\index{main.c@{main.c}!CHECK\_NEW\_DATA@{CHECK\_NEW\_DATA}}}\mbox{\Hypertarget{main_8c_a06fc87d81c62e9abb8790b6e5713c55bacef81f99c9f6fa99311cbd746abd976a}\label{main_8c_a06fc87d81c62e9abb8790b6e5713c55bacef81f99c9f6fa99311cbd746abd976a}} 
+CHECK\+\_\+\+NEW\+\_\+\+DATA&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{EXE\_CMD@{EXE\_CMD}!main.c@{main.c}}\index{main.c@{main.c}!EXE\_CMD@{EXE\_CMD}}}\mbox{\Hypertarget{main_8c_a06fc87d81c62e9abb8790b6e5713c55ba455ec018938d479f32add139d234469f}\label{main_8c_a06fc87d81c62e9abb8790b6e5713c55ba455ec018938d479f32add139d234469f}} 
+EXE\+\_\+\+CMD&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{UPD\_EEPROM@{UPD\_EEPROM}!main.c@{main.c}}\index{main.c@{main.c}!UPD\_EEPROM@{UPD\_EEPROM}}}\mbox{\Hypertarget{main_8c_a06fc87d81c62e9abb8790b6e5713c55ba4b7b68d1957349f685e7de6e2d25e59f}\label{main_8c_a06fc87d81c62e9abb8790b6e5713c55ba4b7b68d1957349f685e7de6e2d25e59f}} 
+UPD\+\_\+\+EEPROM&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{UPD\_DATA\_BUFF@{UPD\_DATA\_BUFF}!main.c@{main.c}}\index{main.c@{main.c}!UPD\_DATA\_BUFF@{UPD\_DATA\_BUFF}}}\mbox{\Hypertarget{main_8c_a06fc87d81c62e9abb8790b6e5713c55ba02ecacd716fc828146702fe5263a1f2b}\label{main_8c_a06fc87d81c62e9abb8790b6e5713c55ba02ecacd716fc828146702fe5263a1f2b}} 
+UPD\+\_\+\+DATA\+\_\+\+BUFF&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{UPD\_FLASH@{UPD\_FLASH}!main.c@{main.c}}\index{main.c@{main.c}!UPD\_FLASH@{UPD\_FLASH}}}\mbox{\Hypertarget{main_8c_a06fc87d81c62e9abb8790b6e5713c55ba8e014d2a7eb22a0fd6b562d71f133e65}\label{main_8c_a06fc87d81c62e9abb8790b6e5713c55ba8e014d2a7eb22a0fd6b562d71f133e65}} 
+UPD\+\_\+\+FLASH&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{ERASE\_UNUSE\_PAGES@{ERASE\_UNUSE\_PAGES}!main.c@{main.c}}\index{main.c@{main.c}!ERASE\_UNUSE\_PAGES@{ERASE\_UNUSE\_PAGES}}}\mbox{\Hypertarget{main_8c_a06fc87d81c62e9abb8790b6e5713c55ba5193bde5d7e38596e1f4d9561ce4ce49}\label{main_8c_a06fc87d81c62e9abb8790b6e5713c55ba5193bde5d7e38596e1f4d9561ce4ce49}} 
+ERASE\+\_\+\+UNUSE\+\_\+\+PAGES&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{SEND\_UPG\_STATUS@{SEND\_UPG\_STATUS}!main.c@{main.c}}\index{main.c@{main.c}!SEND\_UPG\_STATUS@{SEND\_UPG\_STATUS}}}\mbox{\Hypertarget{main_8c_a06fc87d81c62e9abb8790b6e5713c55ba2d3fecf8df9c278561e3899887f7747b}\label{main_8c_a06fc87d81c62e9abb8790b6e5713c55ba2d3fecf8df9c278561e3899887f7747b}} 
+SEND\+\_\+\+UPG\+\_\+\+STATUS&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{EXIT\_BOOT@{EXIT\_BOOT}!main.c@{main.c}}\index{main.c@{main.c}!EXIT\_BOOT@{EXIT\_BOOT}}}\mbox{\Hypertarget{main_8c_a06fc87d81c62e9abb8790b6e5713c55baab8ceb27815fe5922b8bb19352fc03e6}\label{main_8c_a06fc87d81c62e9abb8790b6e5713c55baab8ceb27815fe5922b8bb19352fc03e6}} 
+EXIT\+\_\+\+BOOT&\\
+\hline
+
+\end{DoxyEnumFields}
+
+
+Definition at line \mbox{\hyperlink{main_8c_source_l00083}{83}} of file \mbox{\hyperlink{main_8c_source}{main.\+c}}.
+
+\mbox{\Hypertarget{main_8c_adf764cbdea00d65edcd07bb9953ad2b7}\label{main_8c_adf764cbdea00d65edcd07bb9953ad2b7}} 
+\doxysubsubsection{\texorpdfstring{anonymous enum}{anonymous enum}}
+{\footnotesize\ttfamily anonymous enum}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{DATA\_OK@{DATA\_OK}!main.c@{main.c}}\index{main.c@{main.c}!DATA\_OK@{DATA\_OK}}}\mbox{\Hypertarget{main_8c_adf764cbdea00d65edcd07bb9953ad2b7a70b6f9a97b30bbe1e1ec4bf3d12a8aae}\label{main_8c_adf764cbdea00d65edcd07bb9953ad2b7a70b6f9a97b30bbe1e1ec4bf3d12a8aae}} 
+DATA\+\_\+\+OK&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{DATA\_ERR@{DATA\_ERR}!main.c@{main.c}}\index{main.c@{main.c}!DATA\_ERR@{DATA\_ERR}}}\mbox{\Hypertarget{main_8c_adf764cbdea00d65edcd07bb9953ad2b7a907d97c41566f6a26560dbf4b9d2570b}\label{main_8c_adf764cbdea00d65edcd07bb9953ad2b7a907d97c41566f6a26560dbf4b9d2570b}} 
+DATA\+\_\+\+ERR&\\
+\hline
+
+\end{DoxyEnumFields}
+
+
+Definition at line \mbox{\hyperlink{main_8c_source_l00104}{104}} of file \mbox{\hyperlink{main_8c_source}{main.\+c}}.
+
+\mbox{\Hypertarget{main_8c_a99fb83031ce9923c84392b4e92f956b5}\label{main_8c_a99fb83031ce9923c84392b4e92f956b5}} 
+\doxysubsubsection{\texorpdfstring{anonymous enum}{anonymous enum}}
+{\footnotesize\ttfamily anonymous enum}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{PKG\_NULL@{PKG\_NULL}!main.c@{main.c}}\index{main.c@{main.c}!PKG\_NULL@{PKG\_NULL}}}\mbox{\Hypertarget{main_8c_a99fb83031ce9923c84392b4e92f956b5ade34d75760c73a06947afd6afb10aa3c}\label{main_8c_a99fb83031ce9923c84392b4e92f956b5ade34d75760c73a06947afd6afb10aa3c}} 
+PKG\+\_\+\+NULL&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{PKG\_INF@{PKG\_INF}!main.c@{main.c}}\index{main.c@{main.c}!PKG\_INF@{PKG\_INF}}}\mbox{\Hypertarget{main_8c_a99fb83031ce9923c84392b4e92f956b5a10e92133c372a7641314ffa266b33320}\label{main_8c_a99fb83031ce9923c84392b4e92f956b5a10e92133c372a7641314ffa266b33320}} 
+PKG\+\_\+\+INF&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{PKG\_RQS@{PKG\_RQS}!main.c@{main.c}}\index{main.c@{main.c}!PKG\_RQS@{PKG\_RQS}}}\mbox{\Hypertarget{main_8c_a99fb83031ce9923c84392b4e92f956b5aec66b452e7c22d9d4ea3b4a4225cb9f1}\label{main_8c_a99fb83031ce9923c84392b4e92f956b5aec66b452e7c22d9d4ea3b4a4225cb9f1}} 
+PKG\+\_\+\+RQS&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{PKG\_RQL@{PKG\_RQL}!main.c@{main.c}}\index{main.c@{main.c}!PKG\_RQL@{PKG\_RQL}}}\mbox{\Hypertarget{main_8c_a99fb83031ce9923c84392b4e92f956b5aca46ca645d97fc706473034728a70b5a}\label{main_8c_a99fb83031ce9923c84392b4e92f956b5aca46ca645d97fc706473034728a70b5a}} 
+PKG\+\_\+\+RQL&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{PKG\_UGR@{PKG\_UGR}!main.c@{main.c}}\index{main.c@{main.c}!PKG\_UGR@{PKG\_UGR}}}\mbox{\Hypertarget{main_8c_a99fb83031ce9923c84392b4e92f956b5af1b47f96aef77be1feadde5f47ba7c56}\label{main_8c_a99fb83031ce9923c84392b4e92f956b5af1b47f96aef77be1feadde5f47ba7c56}} 
+PKG\+\_\+\+UGR&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{PKG\_BIN@{PKG\_BIN}!main.c@{main.c}}\index{main.c@{main.c}!PKG\_BIN@{PKG\_BIN}}}\mbox{\Hypertarget{main_8c_a99fb83031ce9923c84392b4e92f956b5aca2ba70d2c34a0afb238db4c76356528}\label{main_8c_a99fb83031ce9923c84392b4e92f956b5aca2ba70d2c34a0afb238db4c76356528}} 
+PKG\+\_\+\+BIN&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{PKG\_CMD@{PKG\_CMD}!main.c@{main.c}}\index{main.c@{main.c}!PKG\_CMD@{PKG\_CMD}}}\mbox{\Hypertarget{main_8c_a99fb83031ce9923c84392b4e92f956b5ad5ea756b1aee97e02ee8cc7f6b3e4735}\label{main_8c_a99fb83031ce9923c84392b4e92f956b5ad5ea756b1aee97e02ee8cc7f6b3e4735}} 
+PKG\+\_\+\+CMD&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{PKG\_FWV@{PKG\_FWV}!main.c@{main.c}}\index{main.c@{main.c}!PKG\_FWV@{PKG\_FWV}}}\mbox{\Hypertarget{main_8c_a99fb83031ce9923c84392b4e92f956b5af8fea45cabfdd1815fbb3711a6a99644}\label{main_8c_a99fb83031ce9923c84392b4e92f956b5af8fea45cabfdd1815fbb3711a6a99644}} 
+PKG\+\_\+\+FWV&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{PKG\_FWL@{PKG\_FWL}!main.c@{main.c}}\index{main.c@{main.c}!PKG\_FWL@{PKG\_FWL}}}\mbox{\Hypertarget{main_8c_a99fb83031ce9923c84392b4e92f956b5aa836502e4442173d25900b447782add1}\label{main_8c_a99fb83031ce9923c84392b4e92f956b5aa836502e4442173d25900b447782add1}} 
+PKG\+\_\+\+FWL&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{PKG\_ERR@{PKG\_ERR}!main.c@{main.c}}\index{main.c@{main.c}!PKG\_ERR@{PKG\_ERR}}}\mbox{\Hypertarget{main_8c_a99fb83031ce9923c84392b4e92f956b5a63545812d96e90220c6e4b3e2c9354e5}\label{main_8c_a99fb83031ce9923c84392b4e92f956b5a63545812d96e90220c6e4b3e2c9354e5}} 
+PKG\+\_\+\+ERR&\\
+\hline
+
+\end{DoxyEnumFields}
+
+
+Definition at line \mbox{\hyperlink{main_8c_source_l00110}{110}} of file \mbox{\hyperlink{main_8c_source}{main.\+c}}.
+
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{main_8c_a761b4ce6453ebde52ca9cd3b9771569a}\label{main_8c_a761b4ce6453ebde52ca9cd3b9771569a}} 
+\index{main.c@{main.c}!atoh@{atoh}}
+\index{atoh@{atoh}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{atoh()}{atoh()}}
+{\footnotesize\ttfamily void atoh (\begin{DoxyParamCaption}\item[{unsigned char $\ast$}]{ascii\+\_\+ptr,  }\item[{unsigned char $\ast$}]{hex\+\_\+ptr,  }\item[{unsigned int}]{len }\end{DoxyParamCaption})}
+
+
+
+Convert ASCII string to hex. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em ascii\+\_\+ptr} & Pointer to start ascii string. \\
+\hline
+{\em hex\+\_\+ptr} & Pointer to result hex value. \\
+\hline
+{\em len} & Length of string in bytes. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{main_8c_source_l00922}{922}} of file \mbox{\hyperlink{main_8c_source}{main.\+c}}.
+
+\mbox{\Hypertarget{main_8c_a56488a12487084746c108a7894bf806f}\label{main_8c_a56488a12487084746c108a7894bf806f}} 
+\index{main.c@{main.c}!BlockLoad@{BlockLoad}}
+\index{BlockLoad@{BlockLoad}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{BlockLoad()}{BlockLoad()}}
+{\footnotesize\ttfamily unsigned char Block\+Load (\begin{DoxyParamCaption}\item[{unsigned int}]{size,  }\item[{unsigned int $\ast$}]{p\+\_\+data\+\_\+buff,  }\item[{unsigned char}]{mem\+\_\+type,  }\item[{\mbox{\hyperlink{defines_8h_a4b595026466c8543f25986713b81ef4f}{ADDR\+\_\+t}} $\ast$}]{address }\end{DoxyParamCaption})}
+
+
+
+Write data buffer in FLASH or EEPROM memory. 
+
+For flash\+: load data buffer in temp area and write page from address.
+
+For eeprom\+: write num of size data (in bytes) in eeprom from address.
+
+
+\begin{DoxyParams}{Parameters}
+{\em size} & sizo of writing data (in bytes). \\
+\hline
+{\em p\+\_\+data\+\_\+buff} & pointer to data buffer. \\
+\hline
+{\em mem\+\_\+type} & type of writing memory. \\
+\hline
+{\em address} & start memory address. For EEPROM in bytes. For FLASH in words. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+unsigned char. \mbox{[}error code\mbox{]} 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{main_8c_source_l00553}{553}} of file \mbox{\hyperlink{main_8c_source}{main.\+c}}.
+
+\mbox{\Hypertarget{main_8c_a9d70f9900ed9b486ecebcd977dd6fb06}\label{main_8c_a9d70f9900ed9b486ecebcd977dd6fb06}} 
+\index{main.c@{main.c}!BlockRead@{BlockRead}}
+\index{BlockRead@{BlockRead}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{BlockRead()}{BlockRead()}}
+{\footnotesize\ttfamily unsigned char Block\+Read (\begin{DoxyParamCaption}\item[{unsigned int}]{size,  }\item[{unsigned int $\ast$}]{p\+\_\+data\+\_\+buff,  }\item[{unsigned char}]{mem\+\_\+type,  }\item[{\mbox{\hyperlink{defines_8h_a4b595026466c8543f25986713b81ef4f}{ADDR\+\_\+t}} $\ast$}]{address }\end{DoxyParamCaption})}
+
+
+
+Read block data from EEPROM or FLASH. 
+
+For flash\+: load size data from (address) to buffer.
+
+For eeprom\+: read num of size eeprom data (in bytes) from address.
+
+
+\begin{DoxyParams}{Parameters}
+{\em size} & size of reading data (in bytes). \\
+\hline
+{\em p\+\_\+data\+\_\+buff} & pointer to data buffer. \\
+\hline
+{\em mem\+\_\+type} & type of reading memory. \textquotesingle{}E\textquotesingle{} -\/ EEPROM. \textquotesingle{}F\textquotesingle{} -\/ FLASH. \\
+\hline
+{\em address} & start memory address. For EEPROM in bytes. For FLASH in words. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+unsigned char. \mbox{[}TODO\+: error code\mbox{]} 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{main_8c_source_l00619}{619}} of file \mbox{\hyperlink{main_8c_source}{main.\+c}}.
+
+\mbox{\Hypertarget{main_8c_ad59aefc5ae0be87672b85db230106d16}\label{main_8c_ad59aefc5ae0be87672b85db230106d16}} 
+\index{main.c@{main.c}!check\_save\_pkg@{check\_save\_pkg}}
+\index{check\_save\_pkg@{check\_save\_pkg}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{check\_save\_pkg()}{check\_save\_pkg()}}
+{\footnotesize\ttfamily unsigned char check\+\_\+save\+\_\+pkg (\begin{DoxyParamCaption}\item[{unsigned int}]{data\+\_\+length }\end{DoxyParamCaption})}
+
+
+
+Check and save input data. 
+
+Check CRC, header and ID. Save pkg to data buff.
+
+(Convert CRC ascii to hex.)
+
+\begin{DoxyReturn}{Returns}
+unsigned char -\/ error code. 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{main_8c_source_l00859}{859}} of file \mbox{\hyperlink{main_8c_source}{main.\+c}}.
+
+\mbox{\Hypertarget{main_8c_a58a1350ca706c29bfe13eb984d89fd19}\label{main_8c_a58a1350ca706c29bfe13eb984d89fd19}} 
+\index{main.c@{main.c}!chip\_erase@{chip\_erase}}
+\index{chip\_erase@{chip\_erase}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{chip\_erase()}{chip\_erase()}}
+{\footnotesize\ttfamily char chip\+\_\+erase (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Erase chip before write new data. 
+
+\begin{DoxyReturn}{Returns}
+char. \mbox{[}TODO\+: error code\mbox{]} 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{main_8c_source_l00664}{664}} of file \mbox{\hyperlink{main_8c_source}{main.\+c}}.
+
+\mbox{\Hypertarget{main_8c_addbd25ece53e4a98d05ddb0fa9c54dc6}\label{main_8c_addbd25ece53e4a98d05ddb0fa9c54dc6}} 
+\index{main.c@{main.c}!exit\_bootloader@{exit\_bootloader}}
+\index{exit\_bootloader@{exit\_bootloader}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{exit\_bootloader()}{exit\_bootloader()}}
+{\footnotesize\ttfamily void exit\+\_\+bootloader (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Exit boot loader mode. 
+
+Switch to execute the application (jmp to 0x00 address). 
+
+Definition at line \mbox{\hyperlink{main_8c_source_l00783}{783}} of file \mbox{\hyperlink{main_8c_source}{main.\+c}}.
+
+\mbox{\Hypertarget{main_8c_af0d08de095c0c6a062d084562f436b9e}\label{main_8c_af0d08de095c0c6a062d084562f436b9e}} 
+\index{main.c@{main.c}!get\_char@{get\_char}}
+\index{get\_char@{get\_char}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{get\_char()}{get\_char()}}
+{\footnotesize\ttfamily char get\+\_\+char (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Get the char from ring USART RX-\/buffer. 
+
+\begin{DoxyReturn}{Returns}
+Next data char. 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{main_8c_source_l00824}{824}} of file \mbox{\hyperlink{main_8c_source}{main.\+c}}.
+
+\mbox{\Hypertarget{main_8c_a7ab263b676b177dca00c4c3c02f855fd}\label{main_8c_a7ab263b676b177dca00c4c3c02f855fd}} 
+\index{main.c@{main.c}!get\_pkg\_type@{get\_pkg\_type}}
+\index{get\_pkg\_type@{get\_pkg\_type}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{get\_pkg\_type()}{get\_pkg\_type()}}
+{\footnotesize\ttfamily void get\+\_\+pkg\+\_\+type (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Read packege, set the last\+\_\+pkg\+\_\+type. 
+
+
+
+Definition at line \mbox{\hyperlink{main_8c_source_l00937}{937}} of file \mbox{\hyperlink{main_8c_source}{main.\+c}}.
+
+\mbox{\Hypertarget{main_8c_a6288eba0f8e8ad3ab1544ad731eb7667}\label{main_8c_a6288eba0f8e8ad3ab1544ad731eb7667}} 
+\index{main.c@{main.c}!main@{main}}
+\index{main@{main}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{main()}{main()}}
+{\footnotesize\ttfamily void main (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{main_8c_source_l00196}{196}} of file \mbox{\hyperlink{main_8c_source}{main.\+c}}.
+
+\mbox{\Hypertarget{main_8c_a705d8f5c02becd53affa1321a4b9d4d8}\label{main_8c_a705d8f5c02becd53affa1321a4b9d4d8}} 
+\index{main.c@{main.c}!new\_state@{new\_state}}
+\index{new\_state@{new\_state}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{new\_state()}{new\_state()}}
+{\footnotesize\ttfamily void new\+\_\+state (\begin{DoxyParamCaption}\item[{unsigned char}]{new\+\_\+state }\end{DoxyParamCaption})}
+
+
+
+Change STATE MACHINE state, and save previous state. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em new\+\_\+state} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{main_8c_source_l00844}{844}} of file \mbox{\hyperlink{main_8c_source}{main.\+c}}.
+
+\mbox{\Hypertarget{main_8c_a3968cc21f965d76e58b07a713179702d}\label{main_8c_a3968cc21f965d76e58b07a713179702d}} 
+\index{main.c@{main.c}!read\_eeprom\_mem@{read\_eeprom\_mem}}
+\index{read\_eeprom\_mem@{read\_eeprom\_mem}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{read\_eeprom\_mem()}{read\_eeprom\_mem()}}
+{\footnotesize\ttfamily char read\+\_\+eeprom\+\_\+mem (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{defines_8h_a4b595026466c8543f25986713b81ef4f}{ADDR\+\_\+t}}}]{addr }\end{DoxyParamCaption})}
+
+
+
+Read byte of data from EEPROM. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em addr} & address of data in bytes. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+char byte of read data. 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{main_8c_source_l00768}{768}} of file \mbox{\hyperlink{main_8c_source}{main.\+c}}.
+
+\mbox{\Hypertarget{main_8c_a7f494877c76424720b98970e9cc6c462}\label{main_8c_a7f494877c76424720b98970e9cc6c462}} 
+\index{main.c@{main.c}!read\_prog\_mem@{read\_prog\_mem}}
+\index{read\_prog\_mem@{read\_prog\_mem}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{read\_prog\_mem()}{read\_prog\_mem()}}
+{\footnotesize\ttfamily unsigned int read\+\_\+prog\+\_\+mem (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{defines_8h_a4b595026466c8543f25986713b81ef4f}{ADDR\+\_\+t}}}]{addr }\end{DoxyParamCaption})}
+
+
+
+Read one word from FLASH. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em addr} & data address in words. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+unsigned int. 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{main_8c_source_l00681}{681}} of file \mbox{\hyperlink{main_8c_source}{main.\+c}}.
+
+\mbox{\Hypertarget{main_8c_a3756a9aa237700205c05b22eb941eea4}\label{main_8c_a3756a9aa237700205c05b22eb941eea4}} 
+\index{main.c@{main.c}!req\_data\_length@{req\_data\_length}}
+\index{req\_data\_length@{req\_data\_length}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{req\_data\_length()}{req\_data\_length()}}
+{\footnotesize\ttfamily void req\+\_\+data\+\_\+length (\begin{DoxyParamCaption}\item[{unsigned int}]{length }\end{DoxyParamCaption})}
+
+
+
+Send request with length of next FW package. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em length} & -\/ length of packege in bytes. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{main_8c_source_l01031}{1031}} of file \mbox{\hyperlink{main_8c_source}{main.\+c}}.
+
+\mbox{\Hypertarget{main_8c_a2f20dde935c22984143ba946ee4bd996}\label{main_8c_a2f20dde935c22984143ba946ee4bd996}} 
+\index{main.c@{main.c}!req\_start\_byte@{req\_start\_byte}}
+\index{req\_start\_byte@{req\_start\_byte}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{req\_start\_byte()}{req\_start\_byte()}}
+{\footnotesize\ttfamily void req\+\_\+start\+\_\+byte (\begin{DoxyParamCaption}\item[{unsigned int}]{addr }\end{DoxyParamCaption})}
+
+
+
+Send request with start address of next FW package. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em addr} & -\/ address in bytes. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{main_8c_source_l00982}{982}} of file \mbox{\hyperlink{main_8c_source}{main.\+c}}.
+
+\mbox{\Hypertarget{main_8c_a0e6f1b7aff1ad1818a2ca820bde67f60}\label{main_8c_a0e6f1b7aff1ad1818a2ca820bde67f60}} 
+\index{main.c@{main.c}!return\_signature@{return\_signature}}
+\index{return\_signature@{return\_signature}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{return\_signature()}{return\_signature()}}
+{\footnotesize\ttfamily void return\+\_\+signature (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Return signature of chip. 
+
+Print to USART 3 bytes of chip signature. 
+
+Definition at line \mbox{\hyperlink{main_8c_source_l00812}{812}} of file \mbox{\hyperlink{main_8c_source}{main.\+c}}.
+
+\mbox{\Hypertarget{main_8c_a327dc2802189b45182dc8f914326bbc5}\label{main_8c_a327dc2802189b45182dc8f914326bbc5}} 
+\index{main.c@{main.c}!send\_upgd\_result@{send\_upgd\_result}}
+\index{send\_upgd\_result@{send\_upgd\_result}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{send\_upgd\_result()}{send\_upgd\_result()}}
+{\footnotesize\ttfamily void send\+\_\+upgd\+\_\+result (\begin{DoxyParamCaption}\item[{unsigned int}]{result }\end{DoxyParamCaption})}
+
+
+
+Send update flash result. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em result} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{main_8c_source_l01080}{1080}} of file \mbox{\hyperlink{main_8c_source}{main.\+c}}.
+
+\mbox{\Hypertarget{main_8c_af2be9bdc8d6182da38cd1fce435fc326}\label{main_8c_af2be9bdc8d6182da38cd1fce435fc326}} 
+\index{main.c@{main.c}!startup\_init@{startup\_init}}
+\index{startup\_init@{startup\_init}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{startup\_init()}{startup\_init()}}
+{\footnotesize\ttfamily void startup\+\_\+init (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Hardware initialisation. 
+
+USART 115200 TC1 -\/ timer period 100 ms, in ISR decrement startup\+\_\+delay\+\_\+cnt. WDT period 8 sec. 
+
+Definition at line \mbox{\hyperlink{main_8c_source_l00474}{474}} of file \mbox{\hyperlink{main_8c_source}{main.\+c}}.
+
+\mbox{\Hypertarget{main_8c_afbb7f0137cb9e57adb84bdf1673cfb96}\label{main_8c_afbb7f0137cb9e57adb84bdf1673cfb96}} 
+\index{main.c@{main.c}!timer1\_ovf\_isr@{timer1\_ovf\_isr}}
+\index{timer1\_ovf\_isr@{timer1\_ovf\_isr}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{timer1\_ovf\_isr()}{timer1\_ovf\_isr()}}
+{\footnotesize\ttfamily interrupt\mbox{[}TIM1\+\_\+\+OVF\mbox{]} void timer1\+\_\+ovf\+\_\+isr (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{main_8c_source_l00138}{138}} of file \mbox{\hyperlink{main_8c_source}{main.\+c}}.
+
+\mbox{\Hypertarget{main_8c_a9ec59f165509ab8215b8db7b71629bf2}\label{main_8c_a9ec59f165509ab8215b8db7b71629bf2}} 
+\index{main.c@{main.c}!timer\_1\_start@{timer\_1\_start}}
+\index{timer\_1\_start@{timer\_1\_start}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{timer\_1\_start()}{timer\_1\_start()}}
+{\footnotesize\ttfamily void timer\+\_\+1\+\_\+start (\begin{DoxyParamCaption}\item[{unsigned int}]{time\+\_\+ms }\end{DoxyParamCaption})}
+
+
+
+Load delay conter and start timer 1. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em time\+\_\+ms} & -\/ Timer delay in ms (counts only in hundreds ms). \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{main_8c_source_l00528}{528}} of file \mbox{\hyperlink{main_8c_source}{main.\+c}}.
+
+\mbox{\Hypertarget{main_8c_a98930c2a786b58dedab95240e6b3fa0f}\label{main_8c_a98930c2a786b58dedab95240e6b3fa0f}} 
+\index{main.c@{main.c}!timer\_1\_stop@{timer\_1\_stop}}
+\index{timer\_1\_stop@{timer\_1\_stop}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{timer\_1\_stop()}{timer\_1\_stop()}}
+{\footnotesize\ttfamily void timer\+\_\+1\+\_\+stop (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+TC1 stop, turn off before out from boot section. 
+
+
+
+Definition at line \mbox{\hyperlink{main_8c_source_l00517}{517}} of file \mbox{\hyperlink{main_8c_source}{main.\+c}}.
+
+\mbox{\Hypertarget{main_8c_a59bc10d5b50d0f3cabd5aaa9ea7347b2}\label{main_8c_a59bc10d5b50d0f3cabd5aaa9ea7347b2}} 
+\index{main.c@{main.c}!update\_eeprom\_crc@{update\_eeprom\_crc}}
+\index{update\_eeprom\_crc@{update\_eeprom\_crc}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{update\_eeprom\_crc()}{update\_eeprom\_crc()}}
+{\footnotesize\ttfamily void update\+\_\+eeprom\+\_\+crc (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Get new EEPROM data? calculate CRC and save. 
+
+
+
+Definition at line \mbox{\hyperlink{main_8c_source_l01128}{1128}} of file \mbox{\hyperlink{main_8c_source}{main.\+c}}.
+
+\mbox{\Hypertarget{main_8c_ab31baf1a9994da57952eb2b08791b3e4}\label{main_8c_ab31baf1a9994da57952eb2b08791b3e4}} 
+\index{main.c@{main.c}!usart\_rx\_isr@{usart\_rx\_isr}}
+\index{usart\_rx\_isr@{usart\_rx\_isr}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{usart\_rx\_isr()}{usart\_rx\_isr()}}
+{\footnotesize\ttfamily interrupt\mbox{[}USART\+\_\+\+RXC\mbox{]} void usart\+\_\+rx\+\_\+isr (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{main_8c_source_l00150}{150}} of file \mbox{\hyperlink{main_8c_source}{main.\+c}}.
+
+\mbox{\Hypertarget{main_8c_a47011afb285516ef5cef312fd0697e38}\label{main_8c_a47011afb285516ef5cef312fd0697e38}} 
+\index{main.c@{main.c}!write\_eeprom\_mem@{write\_eeprom\_mem}}
+\index{write\_eeprom\_mem@{write\_eeprom\_mem}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{write\_eeprom\_mem()}{write\_eeprom\_mem()}}
+{\footnotesize\ttfamily char write\+\_\+eeprom\+\_\+mem (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{defines_8h_a4b595026466c8543f25986713b81ef4f}{ADDR\+\_\+t}}}]{addr,  }\item[{unsigned char}]{data }\end{DoxyParamCaption})}
+
+
+
+Write one byte of data to EEPROM. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em addr} & Address of byte in EEPROM. \\
+\hline
+{\em data} & Byte of data to be written. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+char \mbox{[}TODO\+: error code\mbox{]} 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{main_8c_source_l00751}{751}} of file \mbox{\hyperlink{main_8c_source}{main.\+c}}.
+
+\mbox{\Hypertarget{main_8c_a2116580a71a2489ce3da48229d83890a}\label{main_8c_a2116580a71a2489ce3da48229d83890a}} 
+\index{main.c@{main.c}!write\_page@{write\_page}}
+\index{write\_page@{write\_page}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{write\_page()}{write\_page()}}
+{\footnotesize\ttfamily char write\+\_\+page (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{defines_8h_a4b595026466c8543f25986713b81ef4f}{ADDR\+\_\+t}}}]{addr }\end{DoxyParamCaption})}
+
+
+
+Write data from temp buffer to flash page. 
+
+Call after load data via function \mbox{\hyperlink{main_8c_a2a7ab0ca1e474f490a29a9d3069d1181}{write\+\_\+prog\+\_\+mem()}}.
+
+
+\begin{DoxyParams}{Parameters}
+{\em addr} & address of page in words. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+char \mbox{[}TODO\+: error code\mbox{]} 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{main_8c_source_l00725}{725}} of file \mbox{\hyperlink{main_8c_source}{main.\+c}}.
+
+\mbox{\Hypertarget{main_8c_a2a7ab0ca1e474f490a29a9d3069d1181}\label{main_8c_a2a7ab0ca1e474f490a29a9d3069d1181}} 
+\index{main.c@{main.c}!write\_prog\_mem@{write\_prog\_mem}}
+\index{write\_prog\_mem@{write\_prog\_mem}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{write\_prog\_mem()}{write\_prog\_mem()}}
+{\footnotesize\ttfamily char write\+\_\+prog\+\_\+mem (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{defines_8h_a4b595026466c8543f25986713b81ef4f}{ADDR\+\_\+t}}}]{addr,  }\item[{unsigned int}]{data }\end{DoxyParamCaption})}
+
+
+
+Load one word of data to temp buffer before write to flash page. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em addr} & Address of data in words. \\
+\hline
+{\em data} & Word of data for load. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+char \mbox{[}TODO\+: error code\mbox{]} 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{main_8c_source_l00703}{703}} of file \mbox{\hyperlink{main_8c_source}{main.\+c}}.
+
+
+
+\doxysubsection{Variable Documentation}
+\mbox{\Hypertarget{main_8c_a838b33e7eb752d6c06c06644340f10e1}\label{main_8c_a838b33e7eb752d6c06c06644340f10e1}} 
+\index{main.c@{main.c}!address@{address}}
+\index{address@{address}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{address}{address}}
+{\footnotesize\ttfamily \mbox{\hyperlink{defines_8h_a4b595026466c8543f25986713b81ef4f}{ADDR\+\_\+t}} address = 0x00}
+
+
+
+Definition at line \mbox{\hyperlink{main_8c_source_l00058}{58}} of file \mbox{\hyperlink{main_8c_source}{main.\+c}}.
+
+\mbox{\Hypertarget{main_8c_a086367ffb13ed25a702ba45e6e0c7ab3}\label{main_8c_a086367ffb13ed25a702ba45e6e0c7ab3}} 
+\index{main.c@{main.c}!current\_state@{current\_state}}
+\index{current\_state@{current\_state}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{current\_state}{current\_state}}
+{\footnotesize\ttfamily unsigned char current\+\_\+state}
+
+
+
+Definition at line \mbox{\hyperlink{main_8c_source_l00127}{127}} of file \mbox{\hyperlink{main_8c_source}{main.\+c}}.
+
+\mbox{\Hypertarget{main_8c_af57000005dac4368890899b6913bb5e4}\label{main_8c_af57000005dac4368890899b6913bb5e4}} 
+\index{main.c@{main.c}!data\_buff@{data\_buff}}
+\index{data\_buff@{data\_buff}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{data\_buff}{data\_buff}}
+{\footnotesize\ttfamily unsigned int data\+\_\+buff\mbox{[}\mbox{\hyperlink{main_8c_abb5cf6bfc6ded05d65ff41396f8a93b8}{DATA\+\_\+\+BUFF\+\_\+\+SIZE}}\mbox{]}}
+
+
+
+Definition at line \mbox{\hyperlink{main_8c_source_l00059}{59}} of file \mbox{\hyperlink{main_8c_source}{main.\+c}}.
+
+\mbox{\Hypertarget{main_8c_ac8e76186c89c96ec01e229e6d7611192}\label{main_8c_ac8e76186c89c96ec01e229e6d7611192}} 
+\index{main.c@{main.c}!eprom\_crc\_buff@{eprom\_crc\_buff}}
+\index{eprom\_crc\_buff@{eprom\_crc\_buff}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{eprom\_crc\_buff}{eprom\_crc\_buff}}
+{\footnotesize\ttfamily unsigned char eprom\+\_\+crc\+\_\+buff\mbox{[}\mbox{\hyperlink{main_8c_a4ac7e3fa40208406dc0fafb9d4cea1ee}{EEPROM\+\_\+\+DATA\+\_\+\+SIZE}}\mbox{]}}
+
+
+
+Definition at line \mbox{\hyperlink{main_8c_source_l00060}{60}} of file \mbox{\hyperlink{main_8c_source}{main.\+c}}.
+
+\mbox{\Hypertarget{main_8c_a31d59520126bf9cf5e7695da8b236555}\label{main_8c_a31d59520126bf9cf5e7695da8b236555}} 
+\index{main.c@{main.c}!fw\_length\_saved@{fw\_length\_saved}}
+\index{fw\_length\_saved@{fw\_length\_saved}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{fw\_length\_saved}{fw\_length\_saved}}
+{\footnotesize\ttfamily unsigned char fw\+\_\+length\+\_\+saved = \mbox{\hyperlink{main_8c_a65e9886d74aaee76545e83dd09011727}{false}}}
+
+
+
+Definition at line \mbox{\hyperlink{main_8c_source_l00132}{132}} of file \mbox{\hyperlink{main_8c_source}{main.\+c}}.
+
+\mbox{\Hypertarget{main_8c_a3910438d242226226036f588ceb2d9da}\label{main_8c_a3910438d242226226036f588ceb2d9da}} 
+\index{main.c@{main.c}!fw\_version\_saved@{fw\_version\_saved}}
+\index{fw\_version\_saved@{fw\_version\_saved}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{fw\_version\_saved}{fw\_version\_saved}}
+{\footnotesize\ttfamily unsigned char fw\+\_\+version\+\_\+saved = \mbox{\hyperlink{main_8c_a65e9886d74aaee76545e83dd09011727}{false}}}
+
+
+
+Definition at line \mbox{\hyperlink{main_8c_source_l00131}{131}} of file \mbox{\hyperlink{main_8c_source}{main.\+c}}.
+
+\mbox{\Hypertarget{main_8c_a160bbe832b2c6af8edb49d371aef2388}\label{main_8c_a160bbe832b2c6af8edb49d371aef2388}} 
+\index{main.c@{main.c}!i@{i}}
+\index{i@{i}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{i}{i}}
+{\footnotesize\ttfamily char i}
+
+
+
+Definition at line \mbox{\hyperlink{main_8c_source_l00063}{63}} of file \mbox{\hyperlink{main_8c_source}{main.\+c}}.
+
+\mbox{\Hypertarget{main_8c_a8416e8b8289753182f695ed3528691c1}\label{main_8c_a8416e8b8289753182f695ed3528691c1}} 
+\index{main.c@{main.c}!i\_temp\_var@{i\_temp\_var}}
+\index{i\_temp\_var@{i\_temp\_var}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{i\_temp\_var}{i\_temp\_var}}
+{\footnotesize\ttfamily unsigned int i\+\_\+temp\+\_\+var}
+
+
+
+Definition at line \mbox{\hyperlink{main_8c_source_l00076}{76}} of file \mbox{\hyperlink{main_8c_source}{main.\+c}}.
+
+\mbox{\Hypertarget{main_8c_af557386e7a78227150787678e5d37585}\label{main_8c_af557386e7a78227150787678e5d37585}} 
+\index{main.c@{main.c}!j@{j}}
+\index{j@{j}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{j}{j}}
+{\footnotesize\ttfamily char j}
+
+
+
+Definition at line \mbox{\hyperlink{main_8c_source_l00063}{63}} of file \mbox{\hyperlink{main_8c_source}{main.\+c}}.
+
+\mbox{\Hypertarget{main_8c_ae38d57d40a36caf09afc2279ad501581}\label{main_8c_ae38d57d40a36caf09afc2279ad501581}} 
+\index{main.c@{main.c}!j\_temp\_var@{j\_temp\_var}}
+\index{j\_temp\_var@{j\_temp\_var}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{j\_temp\_var}{j\_temp\_var}}
+{\footnotesize\ttfamily unsigned int j\+\_\+temp\+\_\+var}
+
+
+
+Definition at line \mbox{\hyperlink{main_8c_source_l00077}{77}} of file \mbox{\hyperlink{main_8c_source}{main.\+c}}.
+
+\mbox{\Hypertarget{main_8c_a8a173dc278c1c2663eddf9dbb1b4eece}\label{main_8c_a8a173dc278c1c2663eddf9dbb1b4eece}} 
+\index{main.c@{main.c}!last\_fw\_part\_flg@{last\_fw\_part\_flg}}
+\index{last\_fw\_part\_flg@{last\_fw\_part\_flg}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{last\_fw\_part\_flg}{last\_fw\_part\_flg}}
+{\footnotesize\ttfamily unsigned char last\+\_\+fw\+\_\+part\+\_\+flg = \mbox{\hyperlink{main_8c_a65e9886d74aaee76545e83dd09011727}{false}}}
+
+
+
+Definition at line \mbox{\hyperlink{main_8c_source_l00133}{133}} of file \mbox{\hyperlink{main_8c_source}{main.\+c}}.
+
+\mbox{\Hypertarget{main_8c_a58d04bb4830a111b6b43d4d9d732ec5c}\label{main_8c_a58d04bb4830a111b6b43d4d9d732ec5c}} 
+\index{main.c@{main.c}!last\_pkg\_size@{last\_pkg\_size}}
+\index{last\_pkg\_size@{last\_pkg\_size}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{last\_pkg\_size}{last\_pkg\_size}}
+{\footnotesize\ttfamily unsigned int last\+\_\+pkg\+\_\+size}
+
+
+
+Definition at line \mbox{\hyperlink{main_8c_source_l00065}{65}} of file \mbox{\hyperlink{main_8c_source}{main.\+c}}.
+
+\mbox{\Hypertarget{main_8c_a3e6ec5e558a2ddd645ce151344b69ff9}\label{main_8c_a3e6ec5e558a2ddd645ce151344b69ff9}} 
+\index{main.c@{main.c}!last\_pkg\_type@{last\_pkg\_type}}
+\index{last\_pkg\_type@{last\_pkg\_type}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{last\_pkg\_type}{last\_pkg\_type}}
+{\footnotesize\ttfamily volatile unsigned char last\+\_\+pkg\+\_\+type}
+
+
+
+Definition at line \mbox{\hyperlink{main_8c_source_l00125}{125}} of file \mbox{\hyperlink{main_8c_source}{main.\+c}}.
+
+\mbox{\Hypertarget{main_8c_a1062b94202e6fd2eb9f10f47dab57dde}\label{main_8c_a1062b94202e6fd2eb9f10f47dab57dde}} 
+\index{main.c@{main.c}!loaded\_data\_size@{loaded\_data\_size}}
+\index{loaded\_data\_size@{loaded\_data\_size}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{loaded\_data\_size}{loaded\_data\_size}}
+{\footnotesize\ttfamily unsigned int loaded\+\_\+data\+\_\+size}
+
+
+
+Definition at line \mbox{\hyperlink{main_8c_source_l00067}{67}} of file \mbox{\hyperlink{main_8c_source}{main.\+c}}.
+
+\mbox{\Hypertarget{main_8c_aaaf8638133f81a27f58f175af5d6f313}\label{main_8c_aaaf8638133f81a27f58f175af5d6f313}} 
+\index{main.c@{main.c}!lookup@{lookup}}
+\index{lookup@{lookup}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{lookup}{lookup}}
+{\footnotesize\ttfamily char lookup\mbox{[}$\,$\mbox{]}}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{= \{\textcolor{charliteral}{'0'},\textcolor{charliteral}{'1'},\textcolor{charliteral}{'2'},\textcolor{charliteral}{'3'},\textcolor{charliteral}{'4'},\textcolor{charliteral}{'5'},\textcolor{charliteral}{'6'},\textcolor{charliteral}{'7'},\textcolor{charliteral}{'8'},\textcolor{charliteral}{'9'},}
+\DoxyCodeLine{                 \textcolor{charliteral}{'A'},\textcolor{charliteral}{'B'},\textcolor{charliteral}{'C'},\textcolor{charliteral}{'D'},\textcolor{charliteral}{'E'},\textcolor{charliteral}{'F'}\}}
+
+\end{DoxyCode}
+
+
+Definition at line \mbox{\hyperlink{main_8c_source_l00055}{55}} of file \mbox{\hyperlink{main_8c_source}{main.\+c}}.
+
+\mbox{\Hypertarget{main_8c_a03d0a894eabc1433ae4bb58403a1c5eb}\label{main_8c_a03d0a894eabc1433ae4bb58403a1c5eb}} 
+\index{main.c@{main.c}!loop\_index@{loop\_index}}
+\index{loop\_index@{loop\_index}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{loop\_index}{loop\_index}}
+{\footnotesize\ttfamily unsigned int loop\+\_\+index = 0}
+
+
+
+Definition at line \mbox{\hyperlink{main_8c_source_l00062}{62}} of file \mbox{\hyperlink{main_8c_source}{main.\+c}}.
+
+\mbox{\Hypertarget{main_8c_a19f12c5df273f3cd8bb683d49d26922e}\label{main_8c_a19f12c5df273f3cd8bb683d49d26922e}} 
+\index{main.c@{main.c}!new\_fw\_size@{new\_fw\_size}}
+\index{new\_fw\_size@{new\_fw\_size}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{new\_fw\_size}{new\_fw\_size}}
+{\footnotesize\ttfamily unsigned int new\+\_\+fw\+\_\+size}
+
+
+
+Definition at line \mbox{\hyperlink{main_8c_source_l00066}{66}} of file \mbox{\hyperlink{main_8c_source}{main.\+c}}.
+
+\mbox{\Hypertarget{main_8c_ad06bcbea0bbc069bac904f6aa6b1be93}\label{main_8c_ad06bcbea0bbc069bac904f6aa6b1be93}} 
+\index{main.c@{main.c}!page\_counter@{page\_counter}}
+\index{page\_counter@{page\_counter}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{page\_counter}{page\_counter}}
+{\footnotesize\ttfamily unsigned int page\+\_\+counter = 0x00}
+
+
+
+Definition at line \mbox{\hyperlink{main_8c_source_l00064}{64}} of file \mbox{\hyperlink{main_8c_source}{main.\+c}}.
+
+\mbox{\Hypertarget{main_8c_ad24a7209740a83b880691380fbe8e0e9}\label{main_8c_ad24a7209740a83b880691380fbe8e0e9}} 
+\index{main.c@{main.c}!prev\_state@{prev\_state}}
+\index{prev\_state@{prev\_state}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{prev\_state}{prev\_state}}
+{\footnotesize\ttfamily unsigned char prev\+\_\+state}
+
+
+
+Definition at line \mbox{\hyperlink{main_8c_source_l00128}{128}} of file \mbox{\hyperlink{main_8c_source}{main.\+c}}.
+
+\mbox{\Hypertarget{main_8c_ad19aeba226250674fb7c92f2aa5da264}\label{main_8c_ad19aeba226250674fb7c92f2aa5da264}} 
+\index{main.c@{main.c}!rx\_buffer0@{rx\_buffer0}}
+\index{rx\_buffer0@{rx\_buffer0}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{rx\_buffer0}{rx\_buffer0}}
+{\footnotesize\ttfamily char rx\+\_\+buffer0\mbox{[}\mbox{\hyperlink{main_8c_acedccf92b4e13f1dbd0b8c8aaf2c1939}{RX\+\_\+\+BUFFER\+\_\+\+SIZE0}}\mbox{]}}
+
+
+
+Definition at line \mbox{\hyperlink{main_8c_source_l00071}{71}} of file \mbox{\hyperlink{main_8c_source}{main.\+c}}.
+
+\mbox{\Hypertarget{main_8c_a508081f8eb7da70247baccc0d569bd7f}\label{main_8c_a508081f8eb7da70247baccc0d569bd7f}} 
+\index{main.c@{main.c}!rx\_buffer\_overflow0@{rx\_buffer\_overflow0}}
+\index{rx\_buffer\_overflow0@{rx\_buffer\_overflow0}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{rx\_buffer\_overflow0}{rx\_buffer\_overflow0}}
+{\footnotesize\ttfamily bit rx\+\_\+buffer\+\_\+overflow0}
+
+
+
+Definition at line \mbox{\hyperlink{main_8c_source_l00080}{80}} of file \mbox{\hyperlink{main_8c_source}{main.\+c}}.
+
+\mbox{\Hypertarget{main_8c_a8ea16abd0e11c876bbe4469a22ec974e}\label{main_8c_a8ea16abd0e11c876bbe4469a22ec974e}} 
+\index{main.c@{main.c}!rx\_counter0@{rx\_counter0}}
+\index{rx\_counter0@{rx\_counter0}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{rx\_counter0}{rx\_counter0}}
+{\footnotesize\ttfamily unsigned char rx\+\_\+counter0 = 0}
+
+
+
+Definition at line \mbox{\hyperlink{main_8c_source_l00074}{74}} of file \mbox{\hyperlink{main_8c_source}{main.\+c}}.
+
+\mbox{\Hypertarget{main_8c_a1bea8d16e80f6bb30b4f60e3c91c396e}\label{main_8c_a1bea8d16e80f6bb30b4f60e3c91c396e}} 
+\index{main.c@{main.c}!rx\_rd\_index0@{rx\_rd\_index0}}
+\index{rx\_rd\_index0@{rx\_rd\_index0}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{rx\_rd\_index0}{rx\_rd\_index0}}
+{\footnotesize\ttfamily unsigned char rx\+\_\+rd\+\_\+index0 = 0}
+
+
+
+Definition at line \mbox{\hyperlink{main_8c_source_l00073}{73}} of file \mbox{\hyperlink{main_8c_source}{main.\+c}}.
+
+\mbox{\Hypertarget{main_8c_a93b6dec843d85b514fd1c2a8bde2f41c}\label{main_8c_a93b6dec843d85b514fd1c2a8bde2f41c}} 
+\index{main.c@{main.c}!rx\_wr\_index0@{rx\_wr\_index0}}
+\index{rx\_wr\_index0@{rx\_wr\_index0}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{rx\_wr\_index0}{rx\_wr\_index0}}
+{\footnotesize\ttfamily unsigned char rx\+\_\+wr\+\_\+index0 = 0}
+
+
+
+Definition at line \mbox{\hyperlink{main_8c_source_l00073}{73}} of file \mbox{\hyperlink{main_8c_source}{main.\+c}}.
+
+\mbox{\Hypertarget{main_8c_ada76f06967cb4ee0c91f105036c4f449}\label{main_8c_ada76f06967cb4ee0c91f105036c4f449}} 
+\index{main.c@{main.c}!timer\_1\_delay\_cnt@{timer\_1\_delay\_cnt}}
+\index{timer\_1\_delay\_cnt@{timer\_1\_delay\_cnt}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{timer\_1\_delay\_cnt}{timer\_1\_delay\_cnt}}
+{\footnotesize\ttfamily volatile unsigned int timer\+\_\+1\+\_\+delay\+\_\+cnt}
+
+
+
+Definition at line \mbox{\hyperlink{main_8c_source_l00053}{53}} of file \mbox{\hyperlink{main_8c_source}{main.\+c}}.
+

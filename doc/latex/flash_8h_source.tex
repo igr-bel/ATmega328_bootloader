@@ -1,0 +1,37 @@
+\hypertarget{flash_8h_source}{}\doxysection{//ws-\/rob-\/local/\+Obmen/boot\+\_\+test/\+ATmega328/flash.h}
+\mbox{\hyperlink{flash_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{flash_8h_source_l00001}00001 \textcolor{preprocessor}{\#ifndef \_FLASH\_INCLUDED\_}}
+\DoxyCodeLine{\Hypertarget{flash_8h_source_l00002}00002 \textcolor{preprocessor}{\#define \_FLASH\_INCLUDED\_}}
+\DoxyCodeLine{\Hypertarget{flash_8h_source_l00003}00003 }
+\DoxyCodeLine{\Hypertarget{flash_8h_source_l00004}\mbox{\hyperlink{flash_8h_a2d259af6873b20b329bf26b79d349d5e}{00004}} \textcolor{preprocessor}{\#define \_GET\_LOCK\_BITS() \_\_AddrToZByteToSPMCR\_LPM( (void flash *) 0x0001, 0x09 )}}
+\DoxyCodeLine{\Hypertarget{flash_8h_source_l00005}\mbox{\hyperlink{flash_8h_a4e5758b5f426344457d64bc2e49e7d0a}{00005}} \textcolor{preprocessor}{\#define \_GET\_LOW\_FUSES() \_\_AddrToZByteToSPMCR\_LPM( (void flash *) 0x0000, 0x09 )}}
+\DoxyCodeLine{\Hypertarget{flash_8h_source_l00006}\mbox{\hyperlink{flash_8h_a8f81a18669f2453549c8f4bc7f94076f}{00006}} \textcolor{preprocessor}{\#define \_GET\_HIGH\_FUSES() \_\_AddrToZByteToSPMCR\_LPM( (void flash *) 0x0003, 0x09 )}}
+\DoxyCodeLine{\Hypertarget{flash_8h_source_l00007}\mbox{\hyperlink{flash_8h_a605e09688f73b72ce2f6f45914497aab}{00007}} \textcolor{preprocessor}{\#define \_GET\_EXTENDED\_FUSES() \_\_AddrToZByteToSPMCR\_LPM( (void flash *) 0x0002, 0x09 )}}
+\DoxyCodeLine{\Hypertarget{flash_8h_source_l00008}\mbox{\hyperlink{flash_8h_ab023f2a0b30dad3f3f2668d04ac71f88}{00008}} \textcolor{preprocessor}{\#define \_SET\_LOCK\_BITS(data) \_\_DataToR0ByteToSPMCR\_SPM( data, 0x09 )}}
+\DoxyCodeLine{\Hypertarget{flash_8h_source_l00009}\mbox{\hyperlink{flash_8h_ad0a33454b7ed700c0977bc4baf761b60}{00009}} \textcolor{preprocessor}{\#define \_ENABLE\_RWW\_SECTION() \_\_DataToR0ByteToSPMCR\_SPM( 0x00, 0x11 )}}
+\DoxyCodeLine{\Hypertarget{flash_8h_source_l00010}00010 }
+\DoxyCodeLine{\Hypertarget{flash_8h_source_l00011}\mbox{\hyperlink{flash_8h_aef565ef46f88885bcbe0776b55b6cfea}{00011}} \textcolor{preprocessor}{\#define \_WAIT\_FOR\_SPM() while( SPMCR\_REG \& (1<<SELFPRGEN) );}}
+\DoxyCodeLine{\Hypertarget{flash_8h_source_l00012}00012 }
+\DoxyCodeLine{\Hypertarget{flash_8h_source_l00013}\mbox{\hyperlink{flash_8h_a982890f0dc484ec6b43341aba91da4d2}{00013}} \textcolor{preprocessor}{\#define \_LOAD\_PROGRAM\_MEMORY(addr) (*( (unsigned char flash *) (addr) ))}}
+\DoxyCodeLine{\Hypertarget{flash_8h_source_l00014}00014 }
+\DoxyCodeLine{\Hypertarget{flash_8h_source_l00015}00015 \textcolor{preprocessor}{\#ifdef \_MODEL\_SMALL\_}}
+\DoxyCodeLine{\Hypertarget{flash_8h_source_l00016}00016 \textcolor{preprocessor}{  \#define \_FILL\_TEMP\_WORD(addr,data) \_\_AddrToZWordToR1R0ByteToSPMCR\_SPM( (void flash *) (addr), data, 0x01 )}}
+\DoxyCodeLine{\Hypertarget{flash_8h_source_l00017}00017 \textcolor{preprocessor}{  \#define \_PAGE\_ERASE(addr) \_\_AddrToZByteToSPMCR\_SPM( (void flash *) (addr), 0x03 )}}
+\DoxyCodeLine{\Hypertarget{flash_8h_source_l00018}00018 \textcolor{preprocessor}{  \#define \_PAGE\_WRITE(addr) \_\_AddrToZByteToSPMCR\_SPM( (void flash *) (addr), 0x05 )}}
+\DoxyCodeLine{\Hypertarget{flash_8h_source_l00019}00019 \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{\Hypertarget{flash_8h_source_l00020}\mbox{\hyperlink{flash_8h_a3046e7ee03f6b3272e6e7f87ec94f685}{00020}} \textcolor{preprocessor}{  \#define \_FILL\_TEMP\_WORD(addr,data) \_\_AddrToZ24WordToR1R0ByteToSPMCR\_SPM( (void flash *) (addr), data, 0x01 )}}
+\DoxyCodeLine{\Hypertarget{flash_8h_source_l00021}\mbox{\hyperlink{flash_8h_a095eb6a9be843fded32d7395d83c084c}{00021}} \textcolor{preprocessor}{  \#define \_PAGE\_ERASE(addr) \_\_AddrToZ24ByteToSPMCR\_SPM( (void flash *) (addr), 0x03 )}}
+\DoxyCodeLine{\Hypertarget{flash_8h_source_l00022}\mbox{\hyperlink{flash_8h_af6e6254a03a9142dc7408b0a870b7453}{00022}} \textcolor{preprocessor}{  \#define \_PAGE\_WRITE(addr) \_\_AddrToZ24ByteToSPMCR\_SPM( (void flash *) (addr), 0x05 )}}
+\DoxyCodeLine{\Hypertarget{flash_8h_source_l00023}00023 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{flash_8h_source_l00024}00024 }
+\DoxyCodeLine{\Hypertarget{flash_8h_source_l00025}00025 \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} \mbox{\hyperlink{flash_8h_aaf24df2269b0ccc096d6a2bee43cc972}{\_\_AddrToZByteToSPMCR\_LPM}}(\textcolor{keywordtype}{void} flash *addr, \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} ctrl);}
+\DoxyCodeLine{\Hypertarget{flash_8h_source_l00026}00026 \textcolor{keywordtype}{void} \mbox{\hyperlink{flash_8h_a3426d246aaeea1ea72a473ab12c1e645}{\_\_DataToR0ByteToSPMCR\_SPM}}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} data, \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} ctrl);}
+\DoxyCodeLine{\Hypertarget{flash_8h_source_l00027}00027 \textcolor{keywordtype}{void} \mbox{\hyperlink{flash_8h_a26352e2db4c23eff0f50fce9a5f0ebe4}{\_\_AddrToZByteToSPMCR\_SPM}}(\textcolor{keywordtype}{void} flash *addr, \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} ctrl);}
+\DoxyCodeLine{\Hypertarget{flash_8h_source_l00028}00028 \textcolor{keywordtype}{void} \mbox{\hyperlink{flash_8h_a6b2309e0aed8d7727557c064e4c6b284}{\_\_AddrToZWordToR1R0ByteToSPMCR\_SPM}}(\textcolor{keywordtype}{void} flash *addr, \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} data, \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} ctrl);}
+\DoxyCodeLine{\Hypertarget{flash_8h_source_l00029}00029 \textcolor{keywordtype}{void} \mbox{\hyperlink{flash_8h_aad94557d937a9dc76c49c930b726d4ce}{\_\_AddrToZ24WordToR1R0ByteToSPMCR\_SPM}}(\textcolor{keywordtype}{void} flash *addr, \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} data, \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} ctrl);}
+\DoxyCodeLine{\Hypertarget{flash_8h_source_l00030}00030 \textcolor{keywordtype}{void} \mbox{\hyperlink{flash_8h_a793db4d4ae08e6daa7eefa52204738a8}{\_\_AddrToZ24ByteToSPMCR\_SPM}}(\textcolor{keywordtype}{void} flash *addr, \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} ctrl);}
+\DoxyCodeLine{\Hypertarget{flash_8h_source_l00031}00031 }
+\DoxyCodeLine{\Hypertarget{flash_8h_source_l00032}00032 \textcolor{preprocessor}{\#endif  }\textcolor{comment}{//\_FLASH\_INCLUDED\_}}
+
+\end{DoxyCode}
